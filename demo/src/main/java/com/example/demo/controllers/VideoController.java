@@ -35,7 +35,6 @@ public class VideoController {
     @GetMapping("/hello")
     public String hello() throws Exception {
 
-
         return "Hello !";
     }
 
