@@ -1,6 +1,6 @@
-package com.example.demo.controllers;
+package com.example.demo.test;
 
-import com.example.demo.service.VideoService;
+import com.example.demo.test.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +24,10 @@ public class VideoController {
     public ResponseEntity<String> handleVideoUpload(@RequestParam("file") MultipartFile file) throws Exception {
 
         // Calculate hash value for uploaded video file
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(file.getBytes());
         byte[] hash = md.digest();
-        String hashString = videoService.bytesToHex(hash);
+        String hashString = VideoService.bytesToHex(hash);
 
         // Return hash value as response to client
         return ResponseEntity.ok(hashString);

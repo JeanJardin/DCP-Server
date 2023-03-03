@@ -38,6 +38,11 @@
             <version>0.0.20131108.vaadin1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>name.wramner.httpclient</groupId>
+            <artifactId>HttpClient</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
 	<build>

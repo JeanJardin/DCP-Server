@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.test;
 
 public class Video {
     private Long id;
