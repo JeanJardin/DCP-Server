@@ -11,8 +11,6 @@ public class AirtableService implements IAirtableService{
     String baseId = null;
     HttpClient httpClient = null;
 
-
-
     @Override
     public HttpGet request() {
         return null;
