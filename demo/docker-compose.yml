@@ -7,9 +7,7 @@ services:
     volumes:
       - mongodb-data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
+      MONGO_INITDB_DATABASE: DCP-Server
   server:
     build: .
     networks:
@@ -19,7 +17,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://root:example@mongodb:27017/my-database
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/DCP-Server
 
 networks:
   my-network:

@@ -1,6 +1,10 @@
 package com.example.demo.test;
 
 import com.example.demo.test.VideoService;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +39,7 @@ public class VideoController {
     @GetMapping("/hello")
     public String hello() throws Exception {
 
-        return "Hello !";
+        return "Yes my man";
     }
 
     // Helper method to convert byte array to hex string
