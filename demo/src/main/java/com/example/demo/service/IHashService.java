@@ -7,5 +7,6 @@ public interface IHashService {
     //methods
     String hashContent(JSONObject jsonObject);
     String hashBinaryContent(String resourceUrl);
+    boolean compareHashSignature(String hashMongoDB, String hashTablet);
 
 }

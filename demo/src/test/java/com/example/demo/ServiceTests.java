@@ -29,4 +29,11 @@ public class ServiceTests {
         String digest = hashService.hashBinaryContent("https://scolcast.ch/system/files/episodes/videos/d2239ff867d5d59ef4be6cab28848f7d6daf6da9/original/3.phrases_additionnelles_enneigement.mp4");
         assertEquals("d4ba482b58b71960a32e5c1de85c58d4", digest);
     }
+
+    @Test
+    public void testCompareHashSignature(){
+        HashService hashService = new HashService();
+        String hashMongoDB = "f16ad52c441d68260fa08eac10f01803";
+        hashService.compareHashSignature(hashMongoDB,"f16ad52c441d68260fa08eac10f01803");
+    }
 }
