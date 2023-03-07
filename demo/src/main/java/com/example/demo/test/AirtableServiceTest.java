@@ -18,11 +18,11 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class AirtableServiceTest {
 
-    /*
+
     public static void main(String[] args) throws Exception {
         String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";
         String baseId = "applto3j1obQLAVnr";
-        String tableName = "Videos";
+        String tableName = "ContainerCodes";
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
@@ -31,13 +31,13 @@ public class AirtableServiceTest {
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         System.out.println(response);
     }
-    */
+
 
 
     public static void test(String[] args) throws IOException, InterruptedException, NoSuchAlgorithmException, JSONException {
         String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";
         String baseId = "applto3j1obQLAVnr";
-        String tableName = "Testimonials";
+        String tableName = "ContainerCodes";
 
      HttpClient httpClient = HttpClientBuilder.create().build();
      HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
