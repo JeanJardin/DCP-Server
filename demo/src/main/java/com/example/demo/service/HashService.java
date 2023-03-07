@@ -41,6 +41,16 @@ public class HashService implements IHashService{
         return byteArrayToHex(hashData(data));
     }
 
+    /**
+     * Method to compare the hash from the mongoDB and the one computed on the tablet
+     * @param hashMongoDB is the hash stored in the database
+     * @param hashTablet is the hash computed directly on the tablet and send to the server
+     * @return a boolean response to tell if it matches or not
+     */
+    public boolean compareHashSignature(String hashMongoDB, String hashTablet){
+        return hashMongoDB.equals(hashTablet) ? true : false;
+    }
+
     private byte[] hashData(byte[] data){
         byte[] res;
         try {
