@@ -25,7 +25,7 @@ public class HashService implements IHashService{
     public String hashContent(JSONObject jsonObject) {
         byte[] data = jsonObject.toString().getBytes();
 
-        return new String(hashData(data));
+        return byteArrayToHex(hashData(data));
     }
 
     /**
@@ -38,7 +38,7 @@ public class HashService implements IHashService{
         IVideoDownloader videoDownloader = new VideoDownloader();
         byte[] data = videoDownloader.downloadVideo(resourceUrl);
 
-        return new String(hashData(data));
+        return byteArrayToHex(hashData(data));
     }
 
     private byte[] hashData(byte[] data){
@@ -50,5 +50,12 @@ public class HashService implements IHashService{
             throw new RuntimeException(e);
         }
         return res;
+    }
+
+    private String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder(a.length * 2);
+        for(byte b: a)
+            sb.append(String.format("%02x", b));
+        return sb.toString();
     }
 }
