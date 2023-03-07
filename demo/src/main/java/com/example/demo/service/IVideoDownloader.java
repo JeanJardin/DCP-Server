@@ -1,5 +1,5 @@
 package com.example.demo.service;
 
 public interface IVideoDownloader {
-    public Byte[] downloadVideo();
+    byte[] downloadVideo(String url);
 }
