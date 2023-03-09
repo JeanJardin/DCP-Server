@@ -23,11 +23,11 @@ public class Content implements IContent{
     private JSONObject contentJson ;
     //not persisted
     @Transient
-    private Byte[] binaryContent;
+    private byte[] binaryContent;
     public Content() {
 
     }
-    public Content(String contentHash, JSONObject contentJson, Byte[] binaryContent) {
+    public Content(String contentHash, JSONObject contentJson, byte[] binaryContent) {
         this.contentHash = contentHash;
         this.contentJson = contentJson;
         this.binaryContent = binaryContent;
@@ -47,7 +47,7 @@ public class Content implements IContent{
             throw new RuntimeException(e);
         }
         JSONObject contentJson = obj.getJSONObject("contentJson");
-        Byte[] binaryContent = new Byte[0];
+        byte[] binaryContent = new byte[0];
         Content content = new Content(contentHash, contentJson, binaryContent);
         String contentID = obj.optString("contentID");
         if (!contentID.isEmpty()) {
@@ -91,11 +91,11 @@ public class Content implements IContent{
         this.contentJson = contentJson;
     }
 
-    public Byte[] getBinaryContent() {
+    public byte[] getBinaryContent() {
         return binaryContent;
     }
 
-    public void setBinaryContent(Byte[] binaryContent) {
+    public void setBinaryContent(byte[] binaryContent) {
         this.binaryContent = binaryContent;
     }
 }

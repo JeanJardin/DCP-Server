@@ -24,19 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ServiceTests {
 
-    //Airtable service Test
-    @Test
-    public void testRequest() {
-
-    }
-
-
-    @Test
-    public void testGetResponse() {
-
-    }
-
-
     @Test
     public void testHashJson() {
         HashService hashService = new HashService();

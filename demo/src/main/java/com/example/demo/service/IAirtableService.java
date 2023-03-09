@@ -14,5 +14,8 @@ public interface IAirtableService {
     //Methods
     HttpGet request(String tableName) throws JSONException, IOException, NoSuchAlgorithmException;
 
+    /*
     JSONObject getResponse(String tableName, HttpGet request) throws JSONException, NoSuchAlgorithmException, IOException;
+
+     */
 }
