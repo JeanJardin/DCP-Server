@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * Class to hash content
  * @author Nathan Gaillard: nathan.gaillard@students.hevs.ch
  */
+@Service
 public class HashService implements IHashService{
 
     /**

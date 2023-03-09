@@ -17,20 +17,20 @@ public class Content implements IContent{
     private String airtableID;
     //persisted
     @Field
-    private String contentHash;
+    private String jsonHash;
+    @Field
+    private String binaryHash;
     //not persisted
     @Transient
-    private JSONObject contentJson ;
+    private JSONObject contentJson;
     //not persisted
-    @Transient
-    private byte[] binaryContent;
     public Content() {
 
     }
+
     public Content(String contentHash, JSONObject contentJson, byte[] binaryContent) {
-        this.contentHash = contentHash;
+        this.jsonHash = contentHash;
         this.contentJson = contentJson;
-        this.binaryContent = binaryContent;
     }
     public static Content fromJson(String json) throws JSONException {
         JSONObject obj = null;
@@ -76,11 +76,11 @@ public class Content implements IContent{
     }
 
     public String getContentHash() {
-        return contentHash;
+        return jsonHash;
     }
 
     public void setContentHash(String contentHash) {
-        this.contentHash = contentHash;
+        this.jsonHash = contentHash;
     }
 
     public JSONObject getContentJson() {
@@ -91,11 +91,21 @@ public class Content implements IContent{
         this.contentJson = contentJson;
     }
 
-    public byte[] getBinaryContent() {
-        return binaryContent;
+
+
+    public String getJsonHash() {
+        return jsonHash;
     }
 
-    public void setBinaryContent(byte[] binaryContent) {
-        this.binaryContent = binaryContent;
+    public void setJsonHash(String jsonHash) {
+        this.jsonHash = jsonHash;
+    }
+
+    public String getBinaryHash() {
+        return binaryHash;
+    }
+
+    public void setBinaryHash(String binaryHash) {
+        this.binaryHash = binaryHash;
     }
 }
