@@ -22,18 +22,18 @@ public class AirtableServiceTest {
     public static void main(String[] args) throws Exception {
         String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";
         String baseId = "applto3j1obQLAVnr";
-        String tableName = "tables";
+        String tableName = "Terminals";
 
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet requestOld = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
-        HttpGet request = new HttpGet("https://api.airtable.com/v0/meta/bases/" + baseId + "/" + tableName);
+        //used to get only a desired table
+        HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
+        //used to get everything
+        HttpGet requestOld = new HttpGet("https://api.airtable.com/v0/meta/bases/" + baseId + "/" + tableName);
 
         request.setHeader("Authorization", "Bearer " + accessToken);
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         System.out.println(response);
     }
-
-
 
     public static void test(String[] args) throws IOException, InterruptedException, NoSuchAlgorithmException, JSONException {
         String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";

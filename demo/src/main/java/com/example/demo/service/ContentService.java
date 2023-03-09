@@ -7,18 +7,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ContentService {
-    //Variables
 
     @Autowired
     private ContentRepository contentRepository;
 
     public Content getContentById(String id) {
-        contentRepository.findById(id).get();
-        return null;
+      Content foundContent =  contentRepository.findById(id).get();
+        return foundContent;
     }
-
 
     public void saveContent(Content content) {
         contentRepository.save(content);
+    }
+    //TODO getContentByAirtableId
+    public void getContentByAirtableId(int id) {
+       // contentRepository.save(content);
+    }
+
+    public ContentRepository getContentRepository() {
+        return contentRepository;
+    }
+
+    public void setContentRepository(ContentRepository contentRepository) {
+        this.contentRepository = contentRepository;
     }
 }
