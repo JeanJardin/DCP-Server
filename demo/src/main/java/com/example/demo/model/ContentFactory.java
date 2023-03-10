@@ -5,6 +5,7 @@ import com.example.demo.service.ContentService;
 import com.example.demo.service.HashService;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,10 +14,13 @@ import java.util.List;
 //TODO FromAirtableToContentObject
 @Service
 public class ContentFactory implements IContentFactory {
-    ContentService contentService = new ContentService();
-    AirtableService airtableService = new AirtableService();
+    @Autowired
+    ContentService contentService;
+    @Autowired
+    AirtableService airtableService;
     //ContentService contentService = new ContentService();
-    HashService hashService = new HashService();
+    @Autowired
+    HashService hashService;
 
     @Override
     public Content[] createContent(String tableName) throws JSONException, IOException {

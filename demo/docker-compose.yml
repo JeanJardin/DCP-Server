@@ -20,10 +20,3 @@ services:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/DCP-Server
 networks:
   my-network:
-
-volumes:
-  mongodb-data:
-      driver: azure_file
-      driver_opts:
-        share_name: myshare
-        storage_account_name: dcpcms

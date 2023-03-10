@@ -2,14 +2,13 @@ package com.example.demo;
 
 import com.example.demo.service.AirtableService;
 import com.example.demo.service.HashService;
+import com.example.envUtils.DotenvConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,9 +54,10 @@ public class ServiceTests {
 
     @Test
     public void testRequestResponse() throws IOException {
+        String tableName = "Testimonials";
         // Given
-        HttpUriRequest request = new HttpGet("https://api.airtable.com/v0/" + "applto3j1obQLAVnr" + "/" + "Testimonials");
-        request.setHeader("Authorization", "Bearer " + "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96");
+        HttpUriRequest request = new HttpGet(DotenvConfig.get("HTTP_AIRTABLE_TABLE") + DotenvConfig.get("BASE_ID") + "/" + tableName);
+        request.setHeader("Authorization", "Bearer " + DotenvConfig.get("ACCESS_TOKEN"));
 
         // When
         HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
@@ -71,8 +71,8 @@ public class ServiceTests {
         List<JSONObject> actualJSONObject = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
-        HttpGet request = new HttpGet("https://api.airtable.com/v0/" + "applto3j1obQLAVnr" + "/" + tableName);
-        request.setHeader("Authorization", "Bearer " + "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96");
+        HttpUriRequest request = new HttpGet(DotenvConfig.get("HTTP_AIRTABLE_TABLE") + DotenvConfig.get("BASE_ID") + "/" + tableName);
+        request.setHeader("Authorization", "Bearer " + DotenvConfig.get("ACCESS_TOKEN"));
 
         AirtableService airtableService = new AirtableService();
         List<JSONObject> expectedJSONObject = airtableService.getResponseList(tableName);
