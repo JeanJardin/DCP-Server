@@ -31,7 +31,6 @@ public class AirtableService implements IAirtableService{
         return request;
     }
 
-
     public List<JSONObject> getResponseList(String tableName) throws JSONException, IOException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();

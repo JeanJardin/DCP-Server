@@ -17,8 +17,6 @@ public class ContentService {
     @Autowired
     private ContentRepository contentRepository;
 
-    public ContentService() {
-    }
 
     public Content getContentById(String id) {
       Content foundContent =  contentRepository.findById(id).get();
