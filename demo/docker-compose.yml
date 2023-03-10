@@ -13,10 +13,14 @@ services:
     networks:
       - my-network
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
       - mongodb
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/DCP-Server
 networks:
   my-network:
+
+volumes:
+  mongodb-data:
+

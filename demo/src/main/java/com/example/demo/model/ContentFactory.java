@@ -45,7 +45,7 @@ public class ContentFactory implements IContentFactory {
             }
 
             content.setJsonHash(hashService.hashContent(object));
-            content.setContentID(object.optString("id"));
+            content.setAirtableID(object.optString("id"));
             // Remove transient content from memory
             content.setContentJson(null);
 
