@@ -21,8 +21,6 @@ public class ContentFactory implements IContentFactory {
     @Override
     public Content[] createContent(String tableName) throws JSONException, IOException {
 
-        List<Content> contentList;
-
         // get all the json related to the tablename
         List<JSONObject> jsonObjectList = airtableService.getResponseList(tableName);
 
@@ -46,12 +44,12 @@ public class ContentFactory implements IContentFactory {
             content.setContentID(object.optString("id"));
             // Remove transient content from memory
             content.setContentJson(null);
-            // add to lis
-            contentList.add(content);
-            contentService.addListOfContentsToDB(contentList);
+
+            // add content to the db
+            contentService.addContent(content);
+
             System.out.println("Video added to mongodb");
         }
-
 
         // all the json of the element into jsonObject field
         // airtable id of the element into airtableId field
