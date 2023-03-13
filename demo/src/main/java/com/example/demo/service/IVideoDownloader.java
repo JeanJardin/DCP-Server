@@ -1,5 +1,10 @@
 package com.example.demo.service;
 
+import org.springframework.scheduling.annotation.Async;
+
+import java.util.concurrent.Future;
+
 public interface IVideoDownloader {
-    byte[] downloadVideo(String url);
+    @Async
+    Future<byte[]> downloadVideo(String url);
 }

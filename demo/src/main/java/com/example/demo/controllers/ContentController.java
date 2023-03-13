@@ -35,7 +35,7 @@ public class ContentController {
     @GetMapping("/createContent")
     public String createContent() {
         try {
-            contentFactory.createContent("Testimonials");
+            contentFactory.createContent("Videos");
         } catch (JSONException e) {
             return ("Problem occured "+e.getMessage().toString());
         } catch (IOException e) {
@@ -47,7 +47,7 @@ public class ContentController {
     @GetMapping("/addContent")
     public String addContent() {
         Content content = new Content();
-        content.setContentHash("ADAKWDAKWD");
+        content.setJsonHash("ADAKWDAKWD");
         content.setContentJson(null);
         try {
             contentService.getContentRepository().save(content);

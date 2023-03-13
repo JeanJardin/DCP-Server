@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContentRepository extends MongoRepository<Content,String> {
-
+    Content findByJsonHash(String jsonHash);
+    Content findByBinaryHash(String binaryHash);
+    boolean existsByJsonHash(String jsonHash);
+    boolean existsByBinaryHash(String binaryHash);
 }

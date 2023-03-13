@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Class to hash content
@@ -38,8 +40,22 @@ public class HashService implements IHashService{
     @Override
     public String hashBinaryContent(String resourceUrl) {
         IVideoDownloader videoDownloader = new VideoDownloader();
-        byte[] data = videoDownloader.downloadVideo(resourceUrl);
 
+        Future<byte[]> dataTemp =  videoDownloader.downloadVideo(resourceUrl);
+        while(dataTemp.isDone()==false){
+            System.out.println("Downloading..");
+        }
+        // Wait for the result of the future
+        byte[] data = new byte[0];
+        try {
+
+            data = dataTemp.get();
+            System.out.println("Downloading finished");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         return byteArrayToHex(hashData(data));
     }
 

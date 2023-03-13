@@ -42,17 +42,21 @@ public class ContentFactory implements IContentFactory {
                 String videoURL = fieldsObject.optString("File");
                 content.setBinaryHash(hashService.hashBinaryContent(videoURL));
                 System.out.println("video hashed !");
+            } else {
+                System.out.println("No video fields found..");
             }
-
             content.setJsonHash(hashService.hashContent(object));
-            content.setContentID(object.optString("id"));
+            content.setAirtableID(object.optString("id"));
             // Remove transient content from memory
             content.setContentJson(null);
 
             // add content to the db
-            contentService.addContent(content);
-
-            System.out.println("Video added to mongodb");
+            if (!checkIfHashIsAlreadyInDB(content)) {
+                System.out.println("same content not found in database, adding this content..");
+                contentService.addContent(content);
+            } else {
+                System.out.println("Duplicate content found, skipping this content..");
+            }
         }
 
         // all the json of the element into jsonObject field
@@ -66,6 +70,16 @@ public class ContentFactory implements IContentFactory {
 
 
         return new Content[0];
+    }
+    //TODO
+    private boolean checkIfHashIsAlreadyInDB(Content content) {
+
+        if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())){
+            return true;
+        }else if (contentService.getContentRepository().existsByJsonHash(content.getJsonHash())){
+            return true;
+        }
+        return false;
     }
 
 }

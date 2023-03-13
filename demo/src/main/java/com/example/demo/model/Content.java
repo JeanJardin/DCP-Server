@@ -59,6 +59,7 @@ public class Content implements IContent{
         }
         return content;
     }
+
     public String getContentID() {
         return contentID;
     }
@@ -75,24 +76,6 @@ public class Content implements IContent{
         this.airtableID = airtableID;
     }
 
-    public String getContentHash() {
-        return jsonHash;
-    }
-
-    public void setContentHash(String contentHash) {
-        this.jsonHash = contentHash;
-    }
-
-    public JSONObject getContentJson() {
-        return contentJson;
-    }
-
-    public void setContentJson(JSONObject contentJson) {
-        this.contentJson = contentJson;
-    }
-
-
-
     public String getJsonHash() {
         return jsonHash;
     }
@@ -107,5 +90,13 @@ public class Content implements IContent{
 
     public void setBinaryHash(String binaryHash) {
         this.binaryHash = binaryHash;
+    }
+
+    public JSONObject getContentJson() {
+        return contentJson;
+    }
+
+    public void setContentJson(JSONObject contentJson) {
+        this.contentJson = contentJson;
     }
 }
