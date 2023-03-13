@@ -99,6 +99,12 @@ public class ContentFactory implements IContentFactory {
         }
     }
 
+    public ContentFactory() {
+    }
 
-
+    public ContentFactory(ContentService contentService, AirtableService airtableService, HashService hashService) {
+        this.contentService = contentService;
+        this.airtableService = airtableService;
+        this.hashService = hashService;
+    }
 }
