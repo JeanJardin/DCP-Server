@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContentRepository extends MongoRepository<Content,String> {
+    Content findByAirtableID(String airtableID);
     Content findByJsonHash(String jsonHash);
     Content findByBinaryHash(String binaryHash);
     boolean existsByJsonHash(String jsonHash);
