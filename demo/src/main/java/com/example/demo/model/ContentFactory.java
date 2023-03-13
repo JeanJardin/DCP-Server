@@ -23,63 +23,82 @@ public class ContentFactory implements IContentFactory {
     HashService hashService;
 
     @Override
-    public Content[] createContent(String tableName) throws JSONException, IOException {
+    public int createContent(String tableName)  {
+        int count = 0;
 
-        // get all the json related to the tablename
-        List<JSONObject> jsonObjectList = airtableService.getResponseList(tableName);
+        List<JSONObject> jsonObjectList = null;
+        try {
+            jsonObjectList = airtableService.getResponseList(tableName);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        // for each element in the table => put in an object Content
         for (JSONObject object : jsonObjectList) {
-
-            Content content = new Content();
-            JSONObject fieldsObject = object.getJSONObject("fields");
-
-            if (fieldsObject.has("VideoURL")) {
-                String videoURL = fieldsObject.optString("VideoURL");
-                content.setBinaryHash(hashService.hashBinaryContent(videoURL));
-                System.out.println("video hashed !");
-            } else if (fieldsObject.has("File")) {
-                String videoURL = fieldsObject.optString("File");
-                content.setBinaryHash(hashService.hashBinaryContent(videoURL));
-                System.out.println("video hashed !");
-            } else {
-                System.out.println("No video fields found..");
+            Content content = null;
+            try {
+                content = createContentFromJson(object);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
             }
-            content.setJsonHash(hashService.hashContent(object));
-            content.setAirtableID(object.optString("id"));
-            // Remove transient content from memory
-            content.setContentJson(null);
-
-            // add content to the db
-            if (!checkIfHashIsAlreadyInDB(content)) {
-                System.out.println("same content not found in database, adding this content..");
+            if (!isContentAlreadyInDatabase(content)) {
                 contentService.addContent(content);
+                count++;
             } else {
                 System.out.println("Duplicate content found, skipping this content..");
             }
         }
 
-        // all the json of the element into jsonObject field
-        // airtable id of the element into airtableId field
-        // hash the entire json element  into contentHash field
-        // if there is a field "video" download the video and hash the video into the binaryContent field
-
-        // for each Content object now created, add them to the database
-
-        // database is ready ?
-
-
-        return new Content[0];
+        return count;
     }
-    //TODO
-    private boolean checkIfHashIsAlreadyInDB(Content content) {
 
-        if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())){
-            return true;
-        }else if (contentService.getContentRepository().existsByJsonHash(content.getJsonHash())){
-            return true;
+    private Content createContentFromJson(JSONObject jsonObject) throws JSONException {
+        Content content = new Content();
+
+        JSONObject fieldsObject = jsonObject.getJSONObject("fields");
+
+        String fieldType = getFieldType(fieldsObject);
+        switch (fieldType) {
+            case "VideoURL":
+                String videoURL = fieldsObject.optString("VideoURL");
+                content.setBinaryHash(hashService.hashBinaryContent(videoURL));
+                System.out.println("Video hashed!");
+                break;
+            case "File":
+                String fileURL = fieldsObject.optString("File");
+                content.setBinaryHash(hashService.hashBinaryContent(fileURL));
+                System.out.println("File hashed!");
+                break;
+            default:
+                System.out.println("No video fields found..");
+                break;
         }
-        return false;
+        content.setJsonHash(hashService.hashContent(jsonObject));
+        content.setAirtableID(jsonObject.optString("id"));
+
+        return content;
     }
+
+    private String getFieldType(JSONObject fieldsObject) {
+        if (fieldsObject.has("VideoURL")) {
+            return "VideoURL";
+        } else if (fieldsObject.has("File")) {
+            return "File";
+        } else {
+            return "NoField";
+        }
+    }
+
+    private boolean isContentAlreadyInDatabase(Content content) {
+        if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())
+                || contentService.getContentRepository().existsByJsonHash(content.getJsonHash())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }

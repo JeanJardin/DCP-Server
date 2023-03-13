@@ -34,13 +34,7 @@ public class ContentController {
 
     @GetMapping("/createContent")
     public String createContent() {
-        try {
-            contentFactory.createContent("Videos");
-        } catch (JSONException e) {
-            return ("Problem occured "+e.getMessage().toString());
-        } catch (IOException e) {
-            return ("Problem occured "+e.getMessage().toString());
-        }
+        contentFactory.createContent("Videos");
         return "Finished !";
     }
 
