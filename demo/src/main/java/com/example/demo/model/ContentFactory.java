@@ -22,6 +22,14 @@ public class ContentFactory implements IContentFactory {
     @Autowired
     HashService hashService;
 
+
+    /**
+     * Create the content object after the request on the drive
+     * @param tableName
+     * @return
+     * @throws JSONException
+     * @throws IOException
+     */
     @Override
     public Content[] createContent(String tableName) throws JSONException, IOException {
 
@@ -58,16 +66,6 @@ public class ContentFactory implements IContentFactory {
                 System.out.println("Duplicate content found, skipping this content..");
             }
         }
-
-        // all the json of the element into jsonObject field
-        // airtable id of the element into airtableId field
-        // hash the entire json element  into contentHash field
-        // if there is a field "video" download the video and hash the video into the binaryContent field
-
-        // for each Content object now created, add them to the database
-
-        // database is ready ?
-
 
         return new Content[0];
     }
