@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-//TODO FromAirtableToContentObject
 @Service
 public class ContentFactory implements IContentFactory {
     @Autowired
@@ -37,11 +36,7 @@ public class ContentFactory implements IContentFactory {
 
         for (JSONObject object : jsonObjectList) {
             Content content = null;
-            try {
-                content = createContentFromJson(object);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            content = createContentFromJson(object);
             if (!isContentAlreadyInDatabase(content)) {
                 contentService.addContent(content);
                 count++;
@@ -52,13 +47,18 @@ public class ContentFactory implements IContentFactory {
 
         return count;
     }
-
-    private Content createContentFromJson(JSONObject jsonObject) throws JSONException {
+    @Override
+     public Content createContentFromJson(JSONObject jsonObject) {
         Content content = new Content();
 
-        JSONObject fieldsObject = jsonObject.getJSONObject("fields");
+         JSONObject fieldsObject = null;
+         try {
+             fieldsObject = jsonObject.getJSONObject("fields");
+         } catch (JSONException e) {
+             throw new RuntimeException(e);
+         }
 
-        String fieldType = getFieldType(fieldsObject);
+         String fieldType = getFieldType(fieldsObject);
         switch (fieldType) {
             case "VideoURL":
                 String videoURL = fieldsObject.optString("VideoURL");
@@ -79,8 +79,8 @@ public class ContentFactory implements IContentFactory {
 
         return content;
     }
-
-    private String getFieldType(JSONObject fieldsObject) {
+    @Override
+     public String getFieldType(JSONObject fieldsObject) {
         if (fieldsObject.has("VideoURL")) {
             return "VideoURL";
         } else if (fieldsObject.has("File")) {
@@ -89,8 +89,8 @@ public class ContentFactory implements IContentFactory {
             return "NoField";
         }
     }
-
-    private boolean isContentAlreadyInDatabase(Content content) {
+    @Override
+    public boolean isContentAlreadyInDatabase(Content content) {
         if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())
                 || contentService.getContentRepository().existsByJsonHash(content.getJsonHash())) {
             return true;
