@@ -11,18 +11,39 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * A class that implements the {@link IContentFactory} interface, responsible for creating {@link Content} objects
+ * from JSON objects obtained from an Airtable API response. It uses an {@link AirtableService} to obtain the response list,
+ * a {@link HashService} to hash the content, and a {@link ContentService} to check whether the content already exists in the database.
+ */
 @Service
 public class ContentFactory implements IContentFactory {
+    /**
+     * The ContentService used to add content to the database and check whether content already exists in the database.
+     */
     @Autowired
     ContentService contentService;
+    /**
+     * The AirtableService used to obtain the response list from an Airtable API call.
+     */
     @Autowired
     AirtableService airtableService;
     //ContentService contentService = new ContentService();
+    /**
+     * The HashService used to hash the content and check whether it already exists in the database.
+     */
     @Autowired
     HashService hashService;
 
+    /**
+     * Creates Content objects from JSON objects obtained from an Airtable API response and adds them to the database.
+     *
+     * @param tableName the name of the table in Airtable to obtain the response list from
+     * @return the number of new content items added to the database
+     * @throws RuntimeException if there is an error parsing the JSON response or an IOException occurs while calling the Airtable API
+     */
     @Override
-    public int createContent(String tableName)  {
+    public int createContent(String tableName) {
         int count = 0;
 
         List<JSONObject> jsonObjectList = null;
@@ -47,18 +68,26 @@ public class ContentFactory implements IContentFactory {
 
         return count;
     }
+
+    /**
+     * Creates a Content object from a JSON object obtained from an Airtable API response.
+     *
+     * @param jsonObject the JSON object obtained from the Airtable API response
+     * @return a Content object created from the JSON object
+     * @throws RuntimeException if there is an error parsing the JSON object
+     */
     @Override
-     public Content createContentFromJson(JSONObject jsonObject) {
+    public Content createContentFromJson(JSONObject jsonObject) {
         Content content = new Content();
 
-         JSONObject fieldsObject = null;
-         try {
-             fieldsObject = jsonObject.getJSONObject("fields");
-         } catch (JSONException e) {
-             throw new RuntimeException(e);
-         }
+        JSONObject fieldsObject = null;
+        try {
+            fieldsObject = jsonObject.getJSONObject("fields");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
-         String fieldType = getFieldType(fieldsObject);
+        String fieldType = getFieldType(fieldsObject);
         switch (fieldType) {
             case "VideoURL":
                 String videoURL = fieldsObject.optString("VideoURL");
@@ -79,8 +108,15 @@ public class ContentFactory implements IContentFactory {
 
         return content;
     }
+
+    /**
+     * Returns the type of field in the given JSON object.
+     *
+     * @param fieldsObject the JSON object containing the field to check
+     * @return a string indicating the type of field ("VideoURL", "File", or "NoField")
+     */
     @Override
-     public String getFieldType(JSONObject fieldsObject) {
+    public String getFieldType(JSONObject fieldsObject) {
         if (fieldsObject.has("VideoURL")) {
             return "VideoURL";
         } else if (fieldsObject.has("File")) {
@@ -89,6 +125,13 @@ public class ContentFactory implements IContentFactory {
             return "NoField";
         }
     }
+
+    /**
+     * This method checks if the given Content object already exists in the database.
+     *
+     * @param content the Content object to check for existence in the database
+     * @return true if the Content object already exists in the database, false otherwise
+     */
     @Override
     public boolean isContentAlreadyInDatabase(Content content) {
         if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())
