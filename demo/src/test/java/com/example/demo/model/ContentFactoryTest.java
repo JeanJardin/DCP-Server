@@ -34,6 +34,7 @@ class ContentFactoryTest {
 
     @BeforeEach
     void setUp() {
+        //test commit
         autoCloseable = MockitoAnnotations.openMocks(this);
         contentService = new ContentService(contentRepository);
         hashService = new HashService();
