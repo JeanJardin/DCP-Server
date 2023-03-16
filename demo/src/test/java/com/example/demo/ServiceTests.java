@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.model.Content;
 import com.example.demo.service.AirtableService;
+import com.example.demo.service.ContentService;
 import com.example.demo.service.HashService;
 import com.example.envUtils.DotenvConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +21,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
+import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class ServiceTests {
 
@@ -88,4 +94,50 @@ public class ServiceTests {
 
         assertEquals(mapper.readTree(String.valueOf(expectedJSONObject)), mapper.readTree(String.valueOf(actualJSONObject)));
     }
+
+        @Test
+        public void testCreateContent() throws JSONException, IOException {
+
+            AirtableService airtableService;
+            HashService hashService = new HashService();
+            ContentService contentService = new ContentService();
+
+
+            // create sample JSON data to simulate response from Airtable service
+            JSONObject jsonObject1 = new JSONObject("{\"id\": \"rec123\", \"fields\": {\"VideoURL\": \"http://example.com/video1.mp4\"}}");
+            JSONObject jsonObject2 = new JSONObject("{\"id\": \"rec456\", \"fields\": {\"File\": \"http://example.com/file1.pdf\"}}");
+            List<JSONObject> jsonObjectList = new ArrayList<>();
+            jsonObjectList.add(jsonObject1);
+            jsonObjectList.add(jsonObject2);
+
+            // create sample Content object and hash values to simulate behavior of hashService
+            Content content = new Content();
+            content.setBinaryHash("abc123");
+            content.setJsonHash("def456");
+            when(hashService.hashBinaryContent(anyString())).thenReturn("abc123");
+            when(hashService.hashContent((JSONObject) any(JSONObject.class))).thenReturn("def456");
+
+            /*
+            // mock behavior of checkIfHashIsAlreadyInDB() method to return false
+            when(contentService.checkIfHashIsAlreadyInDB(any(Content.class))).thenReturn(false);
+
+            // simulate behavior of addContent() method
+            doNothing().when(contentService).addContent(any(Content.class));
+
+            // simulate behavior of getResponseList() method of AirtableService
+            when(airtableService.getResponseList(eq("TestTable"))).thenReturn(jsonObjectList);
+
+            // call method under test
+            Content[] result = contentServiceImpl.createContent("TestTable");
+
+            // verify behavior and assert results
+            verify(hashService, times(2)).hashBinaryContent(anyString());
+            verify(hashService, times(2)).hashContent(any(JSONObject.class));
+            verify(contentService, times(2)).checkIfHashIsAlreadyInDB(any(Content.class));
+            verify(contentService, times(2)).addContent(any(Content.class));
+            Assert.assertEquals(0, result.length);
+            */
+
+        }
+
 }
