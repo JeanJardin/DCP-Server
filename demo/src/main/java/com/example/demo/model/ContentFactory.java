@@ -43,7 +43,7 @@ public class ContentFactory implements IContentFactory {
      * @throws RuntimeException if there is an error parsing the JSON response or an IOException occurs while calling the Airtable API
      */
     @Override
-    public int createContent(String tableName) {
+    public int createContent(String tableName)  {
         int count = 0;
 
         List<JSONObject> jsonObjectList = null;

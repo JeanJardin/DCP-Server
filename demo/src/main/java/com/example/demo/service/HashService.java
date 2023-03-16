@@ -10,18 +10,21 @@ import java.util.concurrent.Future;
 
 /**
  * Class to hash content
+ *
  * @author Nathan Gaillard: nathan.gaillard@students.hevs.ch
  */
 @Service
-public class HashService implements IHashService{
+public class HashService implements IHashService {
 
     /**
      * The hash algorithm in use
      */
     public final static String HASH_ALGORITHM = "MD5";
+    private VideoDownloader videoDownloader;
 
     /**
      * Hash json content
+     *
      * @param jsonObject message to digest
      * @return digest in a string format
      */
@@ -34,21 +37,22 @@ public class HashService implements IHashService{
 
     /**
      * Hash binary content such as images, videos, audios
+     *
      * @param resourceUrl the url where the binary content is stored
      * @return digest in a string format
      */
     @Override
     public String hashBinaryContent(String resourceUrl) {
-        IVideoDownloader videoDownloader = new VideoDownloader();
-
-        Future<byte[]> dataTemp =  videoDownloader.downloadVideo(resourceUrl);
-        while(dataTemp.isDone()==false){
+        if (videoDownloader == null) {
+            videoDownloader = new VideoDownloader();
+        }
+        Future<byte[]> dataTemp = videoDownloader.downloadVideo(resourceUrl);
+        while (dataTemp.isDone() == false) {
             System.out.println("Downloading..");
         }
         // Wait for the result of the future
         byte[] data = new byte[0];
         try {
-
             data = dataTemp.get();
             System.out.println("Downloading finished");
         } catch (InterruptedException e) {
@@ -61,15 +65,16 @@ public class HashService implements IHashService{
 
     /**
      * Method to compare the hash from the mongoDB and the one computed on the tablet
+     *
      * @param hashMongoDB is the hash stored in the database
-     * @param hashTablet is the hash computed directly on the tablet and send to the server
+     * @param hashTablet  is the hash computed directly on the tablet and send to the server
      * @return a boolean response to tell if it matches or not
      */
-    public boolean compareHashSignature(String hashMongoDB, String hashTablet){
+    public boolean compareHashSignature(String hashMongoDB, String hashTablet) {
         return hashMongoDB.equals(hashTablet) ? true : false;
     }
 
-    private byte[] hashData(byte[] data){
+    private byte[] hashData(byte[] data) {
         byte[] res;
         try {
             MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -82,8 +87,15 @@ public class HashService implements IHashService{
 
     private String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder(a.length * 2);
-        for(byte b: a)
+        for (byte b : a)
             sb.append(String.format("%02x", b));
         return sb.toString();
+    }
+
+    public HashService(VideoDownloader videoDownloader) {
+        this.videoDownloader = videoDownloader;
+    }
+
+    public HashService() {
     }
 }

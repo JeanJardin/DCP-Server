@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
@@ -34,8 +35,6 @@ class ContentFactoryTest {
 
     @BeforeEach
     void setUp() {
-        //test
-        //test commit
         autoCloseable = MockitoAnnotations.openMocks(this);
         contentService = new ContentService(contentRepository);
         hashService = new HashService();
@@ -48,35 +47,6 @@ class ContentFactoryTest {
     void tearDown() throws Exception {
         autoCloseable.close();
     }
-//TODO NOT FINISHED
-    @Test
-    void testCreateContent() throws JSONException, IOException {
-        // Mock the AirtableService to return a list of JSONObjects
-        AirtableService airtableService = mock(AirtableService.class);
-        ContentService contentService = mock(ContentService.class);
-        //when(airtableService.getResponseList("Videos")).thenReturn();
-        // Mock the JSON response from AirtableService
-        JSONObject jsonObject1 = new JSONObject();
-        jsonObject1.put("id", "rec1");
-        JSONObject fields1 = new JSONObject();
-        fields1.put("VideoURL", "http://example.com/video.mp4");
-        jsonObject1.put("fields", fields1);
-
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("id", "rec2");
-        JSONObject fields2 = new JSONObject();
-        fields2.put("File", "http://example.com/file.pdf");
-        jsonObject2.put("fields", fields2);
-        // we have now a list of JSONobjects
-        List<JSONObject> jsonObjects = new ArrayList<>();
-        jsonObjects.add(jsonObject1);
-        jsonObjects.add(jsonObject2);
-
-        contentFactory.createContent("Videos");
-
-
-    }
-
 
     @Test
     void createContentFromJsonVideoField()  {
