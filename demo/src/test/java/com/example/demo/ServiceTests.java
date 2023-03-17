@@ -21,11 +21,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
 import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 public class ServiceTests {
 
@@ -104,8 +103,8 @@ public class ServiceTests {
 
 
             // create sample JSON data to simulate response from Airtable service
-            JSONObject jsonObject1 = new JSONObject("{\"id\": \"rec123\", \"fields\": {\"VideoURL\": \"http://example.com/video1.mp4\"}}");
-            JSONObject jsonObject2 = new JSONObject("{\"id\": \"rec456\", \"fields\": {\"File\": \"http://example.com/file1.pdf\"}}");
+            JSONObject jsonObject1 = new JSONObject("{\"id\": \"rec123\", \"fields\": {\"VideoURL\": \"https://example.com/video1.mp4\"}}");
+            JSONObject jsonObject2 = new JSONObject("{\"id\": \"rec456\", \"fields\": {\"File\": \"https://example.com/file1.pdf\"}}");
             List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject1);
             jsonObjectList.add(jsonObject2);
