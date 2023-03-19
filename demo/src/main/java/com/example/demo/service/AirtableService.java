@@ -25,7 +25,9 @@ public class AirtableService implements IAirtableService {
     String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";
     String baseId = "applto3j1obQLAVnr";
 
-    String TestCommit = null;
+    private HttpClient httpClient;
+    private HttpGet request;
+    private List<JSONObject> jsonObjectList;
 
     /*
     TEST COMMIT
@@ -37,14 +39,14 @@ public class AirtableService implements IAirtableService {
      * @param tableName name of the table we want in the airtable database
      * @return the HttpGet response
      */
-    @Override
-    public HttpGet request(String tableName) throws IOException, JSONException {
-        HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/");
-        request.setHeader("Authorization", "Bearer " + "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96");
-        request.setHeader("Authorization", "Bearer " + accessToken);
-        List<JSONObject> outerObject = getResponseList(tableName);
-        return request;
-    }
+    /// @Override
+    // public HttpGet request(String tableName) throws IOException, JSONException {
+    //     HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/");
+    //     request.setHeader("Authorization", "Bearer " + "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96");
+    //     request.setHeader("Authorization", "Bearer " + accessToken);
+    //     List<JSONObject> outerObject = getResponseList(tableName);
+    //     return request;
+    // }
 
 
     /**
@@ -56,10 +58,10 @@ public class AirtableService implements IAirtableService {
     @Override
     public List<JSONObject> getResponseList(String tableName) throws JSONException, IOException {
 
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
+        httpClient = HttpClientBuilder.create().build();
+        request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
         request.setHeader("Authorization", "Bearer " + accessToken);
-        List<JSONObject> jsonObjectList = new ArrayList<>();
+        jsonObjectList = new ArrayList<>();
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         JSONObject outerObject = new JSONObject(response);
         JSONArray jsonArray = outerObject.getJSONArray("records");
@@ -67,6 +69,31 @@ public class AirtableService implements IAirtableService {
             JSONObject objectInArray = jsonArray.getJSONObject(i);
             jsonObjectList.add(objectInArray);
         }
+        System.out.println("Size is : "+jsonObjectList.size());
         return jsonObjectList;
+    }
+
+    public HttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public HttpGet getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpGet request) {
+        this.request = request;
+    }
+
+    public List<JSONObject> getJsonObjectList() {
+        return jsonObjectList;
+    }
+
+    public void setJsonObjectList(List<JSONObject> jsonObjectList) {
+        this.jsonObjectList = jsonObjectList;
     }
 }
