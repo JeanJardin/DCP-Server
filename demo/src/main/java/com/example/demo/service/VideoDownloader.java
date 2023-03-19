@@ -26,6 +26,7 @@ public class VideoDownloader implements IVideoDownloader {
      * @param url the url in string format
      * @return a byte array containing the video raw data
      */
+
     @Async
     @Override
     public Future<byte[]> downloadVideo(String url) {

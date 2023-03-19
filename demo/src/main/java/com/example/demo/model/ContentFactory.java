@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
 import com.example.demo.service.HashService;
+import com.example.envUtils.DotenvConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +49,12 @@ public class ContentFactory implements IContentFactory {
 
         List<JSONObject> jsonObjectList = null;
         try {
-            jsonObjectList = airtableService.getResponseList(tableName);
+            jsonObjectList = airtableService.getResponseList(tableName, DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         for (JSONObject object : jsonObjectList) {
             Content content = null;
             content = createContentFromJson(object);
@@ -65,7 +65,6 @@ public class ContentFactory implements IContentFactory {
                 System.out.println("Duplicate content found, skipping this content..");
             }
         }
-
         return count;
     }
 

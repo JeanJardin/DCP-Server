@@ -22,8 +22,6 @@ public class AirtableService implements IAirtableService {
 
     //Fields
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-    String accessToken = "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96";
-    String baseId = "applto3j1obQLAVnr";
 
     private HttpClient httpClient;
     private HttpGet request;
@@ -34,29 +32,13 @@ public class AirtableService implements IAirtableService {
      */
 
     /**
-     * Request method to the airtable service
-     *
-     * @param tableName name of the table we want in the airtable database
-     * @return the HttpGet response
-     */
-    /// @Override
-    // public HttpGet request(String tableName) throws IOException, JSONException {
-    //     HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/");
-    //     request.setHeader("Authorization", "Bearer " + "pat0TalhEwsr9igsU.11f3fd461c25f39875650c2e2d593c0c7b6baca09641ec4e34e949a30c055e96");
-    //     request.setHeader("Authorization", "Bearer " + accessToken);
-    //     List<JSONObject> outerObject = getResponseList(tableName);
-    //     return request;
-    // }
-
-
-    /**
      * Method to get the JSONObject through the airtable get
      *
      * @param tableName name of the table we want in the airtable database
      * @return a list of jsonObject correspond to the content
      */
     @Override
-    public List<JSONObject> getResponseList(String tableName) throws JSONException, IOException {
+    public List<JSONObject> getResponseList(String tableName,String baseId,String accessToken) throws JSONException, IOException {
 
         httpClient = HttpClientBuilder.create().build();
         request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
@@ -69,7 +51,7 @@ public class AirtableService implements IAirtableService {
             JSONObject objectInArray = jsonArray.getJSONObject(i);
             jsonObjectList.add(objectInArray);
         }
-        System.out.println("Size is : "+jsonObjectList.size());
+        System.out.println("Elements founds : "+jsonObjectList.size());
         return jsonObjectList;
     }
 
