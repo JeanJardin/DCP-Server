@@ -16,14 +16,12 @@ import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class VideoDownloaderTest {
 
-    @Autowired
-    private VideoDownloader videoDownloader;
+class VideoDownloaderTest {
 
     @Test
     public void testDownloadImage() throws Exception {
+        VideoDownloader videoDownloader  =new VideoDownloader();
         // Arrange
         String testUrl = "https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_117KB_JPG.jpg";
         byte[] expectedBytes = ConvertToByteArray("src/test/java/com/example/demo/testData/testimage.jpg");
