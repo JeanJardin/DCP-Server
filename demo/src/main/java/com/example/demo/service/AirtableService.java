@@ -22,7 +22,6 @@ public class AirtableService implements IAirtableService {
 
     //Fields
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-
     private HttpClient httpClient;
     private HttpGet request;
     private List<JSONObject> jsonObjectList;

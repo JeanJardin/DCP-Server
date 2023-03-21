@@ -63,7 +63,7 @@ class ContentFactoryTest {
 
         when(jsonObject.optString("id")).thenReturn("airtableId");
         when(fieldsObject.has("VideoURL")).thenReturn(true);
-        when(fieldsObject.optString("VideoURL")).thenReturn("http://example.com/video.mp4");
+        when(fieldsObject.optString("VideoURL")).thenReturn("https://example.com/video.mp4");
 
         // Mock the HashService
         HashService hashService = mock(HashService.class);
