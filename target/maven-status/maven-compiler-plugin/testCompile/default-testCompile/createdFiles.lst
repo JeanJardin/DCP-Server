@@ -1,0 +1,5 @@
+com/example/demo/model/ContentFactoryTest.class
+com/example/demo/service/VideoDownloaderTest.class
+com/example/demo/service/HashServiceTest.class
+com/example/demo/service/AirtableServiceTest.class
+com/example/demo/service/ContentServiceTest.class
