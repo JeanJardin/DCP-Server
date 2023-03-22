@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.example.demo.ServiceTests
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 9.765 s <<< FAILURE! - in com.example.demo.ServiceTests
+testCreateContent  Time elapsed: 0.531 s  <<< ERROR!
+java.lang.RuntimeException: java.net.MalformedURLException: no protocol: 
+	at com.example.demo.ServiceTests.testCreateContent(ServiceTests.java:116)
+Caused by: java.net.MalformedURLException: no protocol: 
+	at com.example.demo.ServiceTests.testCreateContent(ServiceTests.java:116)
+
