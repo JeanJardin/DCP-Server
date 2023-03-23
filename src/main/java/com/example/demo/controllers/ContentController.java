@@ -78,7 +78,7 @@ public class ContentController {
 
     @GetMapping("/test")
     public void test(@RequestParam("accessToken") String accessToken) throws AccessDeniedException {
-        String expectedAccessToken = DotenvConfig.get("EXPECTED_ACCESS_TOKEN");
+        String expectedAccessToken = DotenvConfig.get("ACCESS_TOKEN");
         if (accessToken.equals(expectedAccessToken)) {
             String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
             System.out.println(mySecretKey);
