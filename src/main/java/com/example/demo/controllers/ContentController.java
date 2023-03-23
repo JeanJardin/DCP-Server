@@ -76,13 +76,15 @@ public class ContentController {
         return "added !";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/downloadAllContent")
     public void test(@RequestParam("accessToken") String accessToken) throws AccessDeniedException {
         String expectedAccessToken = DotenvConfig.get("ACCESS_TOKEN");
         if (accessToken.equals(expectedAccessToken)) {
             String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
             System.out.println(mySecretKey);
             // Your code logic goes here
+
+
         } else {
             throw new AccessDeniedException("Invalid access token");
         }

@@ -1,5 +1,11 @@
 package com.example.demo.service;
 
+import com.example.envUtils.DotenvConfig;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -10,7 +16,6 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +58,33 @@ public class AirtableService implements IAirtableService {
         System.out.println("Elements founds : "+jsonObjectList.size());
         return jsonObjectList;
     }
+
+    @Override
+    public String[] getAirtableTabNames() throws JSONException, IOException {
+        httpClient = HttpClientBuilder.create().build();
+        request = new HttpGet("https://api.airtable.com/v0/meta/bases/" + DotenvConfig.get("BASE_ID") + "/tables");
+        request.setHeader("Authorization", "Bearer " + DotenvConfig.get("ACCESS_TOKEN"));
+
+        String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray tables = jsonObject.getJSONArray("tables");
+
+
+        return getTableNamesFromJsonArray(tables);
+    }
+    private String[] getTableNamesFromJsonArray(JSONArray tables) throws JSONException {
+        String[] tableNames = new String[tables.length()];
+
+        for (int i = 0; i < tables.length(); i++) {
+            JSONObject table = tables.getJSONObject(i);
+            String tableName = table.getString("name");
+            tableNames[i] = tableName;
+        }
+
+        return tableNames;
+    }
+
 
     public HttpClient getHttpClient() {
         return httpClient;
