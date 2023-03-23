@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 /**
@@ -52,12 +53,16 @@ public class ContentController {
      *
      * @return a message indicating the completion of the creation process
      */
-    @GetMapping("/createContent")
-    public String createContent() {
+
+    @GetMapping("/reloadAll")
+    public String reloadContentAll() {
+
+        //get all sections name from the airtable
+
+
         contentFactory.createContent("Videos");
         return "Finished !";
     }
-
     @GetMapping("/addContent")
     public String addContent() {
         Content content = new Content();
@@ -72,9 +77,18 @@ public class ContentController {
     }
 
     @GetMapping("/test")
-    public void test() {
-        String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
-        System.out.println(mySecretKey);
+    public void test(@RequestParam("accessToken") String accessToken) throws AccessDeniedException {
+        String expectedAccessToken = DotenvConfig.get("EXPECTED_ACCESS_TOKEN");
+        if (accessToken.equals(expectedAccessToken)) {
+            String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
+            System.out.println(mySecretKey);
+            // Your code logic goes here
+        } else {
+            throw new AccessDeniedException("Invalid access token");
+        }
     }
+
+    // input idairtable output concatenated hashes ADD ALSO ACCESS_TOKEN in parameters to allow only valid calls
+    // input void output void => reload data from server => download everything again
 
 }
