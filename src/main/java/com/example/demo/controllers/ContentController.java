@@ -2,12 +2,10 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Content;
 import com.example.demo.model.ContentFactory;
-import com.example.demo.repository.ContentRepository;
+import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
-import com.example.demo.service.HashService;
 import com.example.envUtils.DotenvConfig;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +24,20 @@ public class ContentController {
     private final ContentFactory contentFactory;
     private final ContentService contentService;
 
+    private final AirtableService airtableService;
+
     /**
      * Constructs a new instance of the ContentController class with the specified parameters.
      *
-     * @param contentService the service that manages content
-     * @param contentFactory the factory used for creating content
+     * @param contentService  the service that manages content
+     * @param contentFactory  the factory used for creating content
+     * @param airtableService
      */
     @Autowired
-    public ContentController(ContentService contentService, ContentFactory contentFactory) {
+    public ContentController(ContentService contentService, ContentFactory contentFactory, AirtableService airtableService) {
         this.contentService = contentService;
         this.contentFactory = contentFactory;
+        this.airtableService = airtableService;
     }
 
     /**
@@ -55,12 +57,16 @@ public class ContentController {
      */
 
     @GetMapping("/reloadAll")
-    public String reloadContentAll() {
+    public String reloadContentAll() throws JSONException, IOException {
 
         //get all sections name from the airtable
+        String [] tabNames = airtableService.getAirtableTabNames();
 
+        for (String name : tabNames) {
+            System.out.println("Creating " + name + " contents");
+            contentFactory.createContent(name);
+        }
 
-        contentFactory.createContent("Videos");
         return "Finished !";
     }
     @GetMapping("/addContent")

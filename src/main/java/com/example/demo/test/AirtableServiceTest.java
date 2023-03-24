@@ -29,7 +29,7 @@ public class AirtableServiceTest {
     public static void main(String[] args) throws Exception {
         String accessToken = "pat3H3xSwZH17T2Ih.ba11844b35297813197d6a2ea4a76ece36bc07884928765a84e704738e4cb8eb";
         String baseId = "appDP93O1gy4p4KjC";
-        String tableName = "ContainerCodes";
+        String tableName = "Testimonials";
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         //used to get only a desired table

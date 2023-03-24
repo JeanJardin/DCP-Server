@@ -47,16 +47,15 @@ public class ContentFactory implements IContentFactory {
     public int createContent(String tableName)  {
         int count = 0;
 
-        List<JSONObject> jsonObjectList = null;
+        List<JSONObject> jsonObjectList;
         try {
             jsonObjectList = airtableService.getResponseList(tableName, DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
         for (JSONObject object : jsonObjectList) {
-            Content content = null;
+            System.out.println("Content : " + object.toString());
+            Content content;
             content = createContentFromJson(object);
             if (!isContentAlreadyInDatabase(content)) {
                 contentService.addContent(content);
@@ -79,7 +78,7 @@ public class ContentFactory implements IContentFactory {
     public Content createContentFromJson(JSONObject jsonObject) {
         Content content = new Content();
 
-        JSONObject fieldsObject = null;
+        JSONObject fieldsObject;
         try {
             fieldsObject = jsonObject.getJSONObject("fields");
         } catch (JSONException e) {
@@ -90,6 +89,10 @@ public class ContentFactory implements IContentFactory {
         switch (fieldType) {
             case "VideoURL":
                 String videoURL = fieldsObject.optString("VideoURL");
+                if(videoURL.contains("[") && videoURL.contains("\"")){
+                    videoURL = reformattedUrl(videoURL);
+                }
+                System.out.println("Video URL replaced : " + videoURL);
                 content.setBinaryHash(hashService.hashBinaryContent(videoURL));
                 System.out.println("Video hashed!");
                 break;
@@ -106,6 +109,23 @@ public class ContentFactory implements IContentFactory {
         content.setAirtableID(jsonObject.optString("id"));
 
         return content;
+    }
+
+    private String reformattedUrl(String url) {
+        // Replace
+        url = url.replaceAll("\\[","");
+        url = url.replaceAll("]", "");
+
+        // Replace all occurrences of backslashes with forward slashes
+        url = url.replaceAll("\\\\", "/");
+
+        // Replace any sequence of more than one forward slash with just one
+        url = url.replaceAll("/{2,}", "/");
+
+        // Replace any sequence of one or more forward slashes followed by a colon with just two forward slashes
+        url = url.replaceAll("(?<=https:)/+", "//");
+
+        return url;
     }
 
     /**
