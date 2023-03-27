@@ -17,8 +17,6 @@ public class Main {
         AirtableService airtableService = new AirtableService();
 
         airtableService.getResponseList("Boxes", DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
-
-      //  String str = airtableService.getResponse("Testimonial");
     }
 
 

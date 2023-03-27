@@ -37,10 +37,10 @@ public class AirtableService implements IAirtableService {
      * @return a list of jsonObject correspond to the content
      */
     @Override
-    public List<JSONObject> getResponseList(String tableName,String baseId,String accessToken) throws JSONException, IOException {
+    public List<JSONObject> getResponseList(String tableName, String baseId, String accessToken) throws JSONException, IOException {
 
         httpClient = HttpClientBuilder.create().build();
-        request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName+"?maxRecords=200");
+        request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName + "?maxRecords=200");
         request.setHeader("Authorization", "Bearer " + accessToken);
         jsonObjectList = new ArrayList<>();
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
@@ -51,7 +51,7 @@ public class AirtableService implements IAirtableService {
             JSONObject objectInArray = jsonArray.getJSONObject(i);
             jsonObjectList.add(objectInArray);
         }
-        System.out.println("Elements founds : "+jsonObjectList.size());
+        System.out.println("Elements founds : " + jsonObjectList.size());
         System.out.println(jsonObjectList);
         return jsonObjectList;
     }
@@ -70,6 +70,7 @@ public class AirtableService implements IAirtableService {
 
         return getTableNamesFromJsonArray(tables);
     }
+
     private String[] getTableNamesFromJsonArray(JSONArray tables) throws JSONException {
         String[] tableNames = new String[tables.length()];
 
