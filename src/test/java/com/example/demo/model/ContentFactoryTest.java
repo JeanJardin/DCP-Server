@@ -12,10 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static com.example.demo.controllers.CheckSumController.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ContentFactoryTest {
 
@@ -200,4 +201,24 @@ class ContentFactoryTest {
         assertTrue(result);
     }
 
+
+    //Periodic check test
+
+
+    //test the start of the check
+    @Test
+    public void StartPeriodicCheckTest(){
+        int intervalMinutes=5;
+        startPeriodicCheck(intervalMinutes);
+        assertNotNull(schedule);
+    }
+
+    //test th Stop periodicCheck
+    @Test
+    public void StopPeriodicCheckTest(){
+        int intervalMinutes = 5;
+        startPeriodicCheck(intervalMinutes);
+        stopPeriodicCheck();
+        assertTrue(schedule.isShutdown());
+    }
 }
