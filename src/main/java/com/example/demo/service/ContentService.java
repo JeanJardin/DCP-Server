@@ -52,6 +52,12 @@ public class ContentService implements IContentService {
         return contentRepository.findByAirtableID(id);
     }
 
+    @Override
+    public void deleteAllContent() {
+        contentRepository.deleteAll();
+        System.out.println("Database wiped out..");
+    }
+
     public ContentRepository getContentRepository() {
         return contentRepository;
     }

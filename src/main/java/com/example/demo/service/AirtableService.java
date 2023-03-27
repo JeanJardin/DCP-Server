@@ -40,10 +40,11 @@ public class AirtableService implements IAirtableService {
     public List<JSONObject> getResponseList(String tableName,String baseId,String accessToken) throws JSONException, IOException {
 
         httpClient = HttpClientBuilder.create().build();
-        request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
+        request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName+"?maxRecords=200");
         request.setHeader("Authorization", "Bearer " + accessToken);
         jsonObjectList = new ArrayList<>();
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+        System.out.println(response);
         JSONObject outerObject = new JSONObject(response);
         JSONArray jsonArray = outerObject.getJSONArray("records");
         for (int i = 0, size = jsonArray.length(); i < size; i++) {
@@ -51,6 +52,7 @@ public class AirtableService implements IAirtableService {
             jsonObjectList.add(objectInArray);
         }
         System.out.println("Elements founds : "+jsonObjectList.size());
+        System.out.println(jsonObjectList);
         return jsonObjectList;
     }
 

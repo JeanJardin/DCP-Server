@@ -35,7 +35,6 @@ public class ContentFactory implements IContentFactory {
      */
     @Autowired
     HashService hashService;
-
     /**
      * Creates Content objects from JSON objects obtained from an Airtable API response and adds them to the database.
      *
@@ -46,25 +45,40 @@ public class ContentFactory implements IContentFactory {
     @Override
     public int createContent(String tableName)  {
         int count = 0;
-
-        List<JSONObject> jsonObjectList;
+        int countAdded=0;
+        int countPassed=0;
+        List<JSONObject> jsonObjectList = null;
         try {
             jsonObjectList = airtableService.getResponseList(tableName, DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         for (JSONObject object : jsonObjectList) {
-            System.out.println("Content : " + object.toString());
-            Content content;
+            Content content = null;
             content = createContentFromJson(object);
             if (!isContentAlreadyInDatabase(content)) {
                 contentService.addContent(content);
-                count++;
+                countAdded++;
+                countPassed++;
+                System.out.println("No match found, adding this content into the database");
             } else {
-                System.out.println("Duplicate content found, skipping this content..");
+                countPassed++;
+                System.out.println("--");
+                System.out.println("Duplicate content found skipping this content..");
+                System.out.println("Found this in the database :");
+                System.out.println(contentService.getContentRepository().findByJsonHash(content.getJsonHash().toString()));
+
+                System.out.println("--");
             }
         }
-        return count;
+        System.out.println("----------------------");
+        System.out.println("Reload finished with " + countAdded + " new contents");
+        System.out.println("Reload finished by passing trough " + countPassed + " elements");
+        System.out.println("----------------------");
+        return countAdded;
     }
 
     /**
@@ -153,8 +167,13 @@ public class ContentFactory implements IContentFactory {
      */
     @Override
     public boolean isContentAlreadyInDatabase(Content content) {
+
         if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())
                 || contentService.getContentRepository().existsByJsonHash(content.getJsonHash())) {
+
+            if (content.getBinaryHash() == null || content.getBinaryHash().equals("")) {
+                return false;
+            }
             return true;
         } else {
             return false;

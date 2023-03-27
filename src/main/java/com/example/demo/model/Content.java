@@ -35,6 +35,12 @@ public class Content implements IContent {
      * Can be persisted.
      */
     @Field
+    private String contentName;
+    /**
+     * The hash of binary data of the content.
+     * Can be persisted.
+     */
+    @Field
     private String binaryHash;
     /**
      * The content JSON associated with the content object.
@@ -60,40 +66,6 @@ public class Content implements IContent {
         this.contentJson = contentJson;
     }
 
-    /**
-     * Converts a JSON string into a Content object.
-     *
-     * @param json The JSON string to convert.
-     * @return The Content object created from the JSON string.
-     * @throws JSONException If there was an error parsing the JSON string.
-     */
-    public static Content fromJson(String json) throws JSONException {
-        JSONObject obj = null;
-        try {
-            obj = new JSONObject(json);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        //
-        String contentHash = null;
-        try {
-            contentHash = obj.getString("contentHash");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        JSONObject contentJson = obj.getJSONObject("contentJson");
-        byte[] binaryContent = new byte[0];
-        Content content = new Content(contentHash, contentJson, binaryContent);
-        String contentID = obj.optString("contentID");
-        if (!contentID.isEmpty()) {
-            content.setContentID(contentID);
-        }
-        String airtableID = obj.optString("airtableID");
-        if (!airtableID.isEmpty()) {
-            content.setAirtableID(airtableID);
-        }
-        return content;
-    }
 
     public String getContentID() {
         return contentID;
@@ -133,5 +105,25 @@ public class Content implements IContent {
 
     public void setContentJson(JSONObject contentJson) {
         this.contentJson = contentJson;
+    }
+
+    public String getContentName() {
+        return contentName;
+    }
+
+    public void setContentName(String contentName) {
+        this.contentName = contentName;
+    }
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "contentID='" + contentID + '\'' +
+                ", airtableID='" + airtableID + '\'' +
+                ", jsonHash='" + jsonHash + '\'' +
+                ", contentName='" + contentName + '\'' +
+                ", binaryHash='" + binaryHash + '\'' +
+                ", contentJson=" + contentJson +
+                '}';
     }
 }

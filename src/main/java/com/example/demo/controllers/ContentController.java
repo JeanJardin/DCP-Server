@@ -45,10 +45,10 @@ public class ContentController {
      *
      * @return a ResponseEntity<List<Content>> containing all contents
      */
-    @GetMapping("/contentAll")
+/*    @GetMapping("/contentAll")
     public ResponseEntity<List<Content>> getAllContents() {
         return ResponseEntity.ok(this.contentService.getContentRepository().findAll());
-    }
+    }*/
 
     /**
      * Creates a new content of type "Videos" using the content factory.
@@ -58,7 +58,8 @@ public class ContentController {
 
     @GetMapping("/reloadAll")
     public String reloadContentAll() throws JSONException, IOException {
-
+        //delete all data
+        //contentService.deleteAllContent();
         //get all sections name from the airtable
         String [] tabNames = airtableService.getAirtableTabNames();
 
@@ -69,7 +70,7 @@ public class ContentController {
 
         return "Finished !";
     }
-    @GetMapping("/addContent")
+/*    @GetMapping("/addContent")
     public String addContent() {
         Content content = new Content();
         content.setJsonHash("ADAKWDAKWD");
@@ -80,8 +81,7 @@ public class ContentController {
             System.out.println(e.getMessage().toString());
         }
         return "added !";
-    }
-
+    }*/
     @GetMapping("/downloadAllContent")
     public void test(@RequestParam("accessToken") String accessToken) throws AccessDeniedException {
         String expectedAccessToken = DotenvConfig.get("ACCESS_TOKEN");
@@ -89,8 +89,7 @@ public class ContentController {
             String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
             System.out.println(mySecretKey);
             // Your code logic goes here
-
-
+        //for each table in the airtable, get the elements and store it into the database
         } else {
             throw new AccessDeniedException("Invalid access token");
         }

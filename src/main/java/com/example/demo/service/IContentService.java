@@ -10,5 +10,5 @@ import java.security.NoSuchAlgorithmException;
 public interface IContentService {
      void addContent(Content content);
      Content getContentByAirtableId(String id);
-
+     void deleteAllContent();
 }

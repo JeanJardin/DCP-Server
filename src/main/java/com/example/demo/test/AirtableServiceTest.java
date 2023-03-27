@@ -1,10 +1,5 @@
 package com.example.demo.test;
 
-import com.example.envUtils.DotenvConfig;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,42 +44,41 @@ public class AirtableServiceTest {
         String baseId = "applto3j1obQLAVnr";
         String tableName = "ContainerCodes";
 
-     HttpClient httpClient = HttpClientBuilder.create().build();
-     HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
 
-     request.setHeader("Authorization", "Bearer " + accessToken);
-     String response = EntityUtils.toString(httpClient.execute(request).getEntity());
-     System.out.println(response);
+        request.setHeader("Authorization", "Bearer " + accessToken);
+        String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+        System.out.println(response);
 
         JSONObject outerObject = new JSONObject(response);
         JSONArray jsonArray = outerObject.getJSONArray("records");
 
-        for (int i = 0, size = jsonArray.length(); i < size; i++)
-        {
+        for (int i = 0, size = jsonArray.length(); i < size; i++) {
             JSONObject objectInArray = jsonArray.getJSONObject(i);
             String objectInArrayString = objectInArray.toString();
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hashBytes = digest.digest(objectInArrayString.getBytes(StandardCharsets.UTF_8));
             String hash = bytesToHex(hashBytes);
-            System.out.println("Number: "+i+" The MD5 hash of the Airtable response is: " + hash);
+            System.out.println("Number: " + i + " The MD5 hash of the Airtable response is: " + hash);
         }
     }
 
- private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-private static void DownloadVideo(){
+    private static void DownloadVideo() {
 
-}
+    }
 
- private static String bytesToHex(byte[] bytes) {
-    char[] hexChars = new char[bytes.length * 2];
+    private static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
         for (int i = 0; i < bytes.length; i++) {
             int v = bytes[i] & 0xFF;
             hexChars[i * 2] = HEX_ARRAY[v >>> 4];
             hexChars[i * 2 + 1] = HEX_ARRAY[v & 0x0F];
-         }
-    return new String(hexChars);
- }
+        }
+        return new String(hexChars);
+    }
 
 
 
