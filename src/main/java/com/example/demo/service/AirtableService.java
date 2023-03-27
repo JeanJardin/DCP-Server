@@ -56,6 +56,41 @@ public class AirtableService implements IAirtableService {
         return jsonObjectList;
     }
 
+    JSONObject getResponse(String tableName, String baseId, String accessToken, String offset) throws IOException, JSONException {
+
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        if (offset != null) {
+            request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName + "?offset=" + offset);
+        } else {
+            request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
+        }
+
+        request.setHeader("Authorization", "Bearer " + accessToken);
+        String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+        System.out.println(response);
+        return new JSONObject(response);
+    }
+
+
+    public List<JSONObject> createJsonObject(String tableName, String baseID, String accessToken) throws JSONException, IOException {
+        String offset = null;
+        JSONObject jsonObject;
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        do {
+            var response = getResponse(tableName, baseID, accessToken, offset);
+            JSONArray jsonArray = response.getJSONArray("records");
+            for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                JSONObject objectInArray = jsonArray.getJSONObject(i);
+                jsonObjectList.add(objectInArray);
+            }
+          offset =  response.optString("offset", null);
+
+        } while (offset != null);
+
+        return jsonObjectList;
+    }
+
     @Override
     public String[] getAirtableTabNames() throws JSONException, IOException {
         httpClient = HttpClientBuilder.create().build();

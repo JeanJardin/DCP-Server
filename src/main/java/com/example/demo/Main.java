@@ -15,9 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, JSONException {
         AirtableService airtableService = new AirtableService();
-
-        airtableService.getResponseList("Boxes", DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
+        //airtableService.getResponseList("Boxes", DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
+        System.err.println(airtableService.createJsonObject("Boxes", DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN")));
     }
-
-
 }
