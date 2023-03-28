@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 /**
  * Represents a content object that can be persisted and retrieved.
  * Implements the IContent interface.
@@ -41,7 +43,7 @@ public class Content implements IContent {
      * Can be persisted.
      */
     @Field
-    private String binaryHash;
+    private List<String> binaryHashes;
     /**
      * The content JSON associated with the content object.
      * Not persisted.
@@ -91,13 +93,6 @@ public class Content implements IContent {
         this.jsonHash = jsonHash;
     }
 
-    public String getBinaryHash() {
-        return binaryHash;
-    }
-
-    public void setBinaryHash(String binaryHash) {
-        this.binaryHash = binaryHash;
-    }
 
     public JSONObject getContentJson() {
         return contentJson;
@@ -115,6 +110,18 @@ public class Content implements IContent {
         this.contentName = contentName;
     }
 
+    public List<String> getBinaryHashes() {
+        return binaryHashes;
+    }
+
+    public void setBinaryHashes(List<String> binaryHashes) {
+        this.binaryHashes = binaryHashes;
+    }
+
+    public void addBinaryHashToList(String binaryHash) {
+        binaryHashes.add(binaryHash);
+    }
+
     @Override
     public String toString() {
         return "Content{" +
@@ -122,7 +129,7 @@ public class Content implements IContent {
                 ", airtableID='" + airtableID + '\'' +
                 ", jsonHash='" + jsonHash + '\'' +
                 ", contentName='" + contentName + '\'' +
-                ", binaryHash='" + binaryHash + '\'' +
+                ", binaryHashes=" + binaryHashes +
                 ", contentJson=" + contentJson +
                 '}';
     }

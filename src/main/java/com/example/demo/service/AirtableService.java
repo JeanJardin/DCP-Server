@@ -84,7 +84,7 @@ public class AirtableService implements IAirtableService {
                 JSONObject objectInArray = jsonArray.getJSONObject(i);
                 jsonObjectList.add(objectInArray);
             }
-          offset =  response.optString("offset", null);
+            offset = response.optString("offset", null);
 
         } while (offset != null);
 
@@ -118,6 +118,28 @@ public class AirtableService implements IAirtableService {
         return tableNames;
     }
 
+    private String[] separateUrls(String urls) {
+        if (urls == null || urls.isEmpty()) {
+            return new String[]{};
+        }
+        return urls.split(",");
+    }
+
+    private String reformattedUrl(String url) {
+        // Replace [ and ] in the URL
+        url = url.replaceAll("\\[", "");
+        url = url.replaceAll("]", "");
+        // Replace the " " in the URL
+        url = url.replaceAll("\"", "");
+        // Replace all occurrences of backslashes with forward slashes
+        url = url.replaceAll("\\\\", "/");
+        // Replace any sequence of more than one forward slash with just one
+        url = url.replaceAll("/{2,}", "/");
+        // Replace any sequence of one or more forward slashes followed by a colon with just two forward slashes
+        url = url.replaceAll("(?<=https:)/+", "//");
+        return url;
+    }
+
 
     public HttpClient getHttpClient() {
         return httpClient;
@@ -142,4 +164,6 @@ public class AirtableService implements IAirtableService {
     public void setJsonObjectList(List<JSONObject> jsonObjectList) {
         this.jsonObjectList = jsonObjectList;
     }
+
+
 }

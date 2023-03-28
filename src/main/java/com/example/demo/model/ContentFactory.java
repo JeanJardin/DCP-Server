@@ -35,6 +35,7 @@ public class ContentFactory implements IContentFactory {
      */
     @Autowired
     HashService hashService;
+
     /**
      * Creates Content objects from JSON objects obtained from an Airtable API response and adds them to the database.
      *
@@ -43,13 +44,13 @@ public class ContentFactory implements IContentFactory {
      * @throws RuntimeException if there is an error parsing the JSON response or an IOException occurs while calling the Airtable API
      */
     @Override
-    public int createContent(String tableName)  {
+    public int createContent(String tableName) {
         int count = 0;
-        int countAdded=0;
-        int countPassed=0;
+        int countAdded = 0;
+        int countPassed = 0;
         List<JSONObject> jsonObjectList = null;
         try {
-            jsonObjectList = airtableService.getResponseList(tableName, DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
+            jsonObjectList = airtableService.createJsonObject(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -98,16 +99,17 @@ public class ContentFactory implements IContentFactory {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
+        // we have now the jsonObject and must get all https and hash it then add them to the binaryHashesList
         String fieldType = getFieldType(fieldsObject);
         switch (fieldType) {
             case "VideoURL":
                 String videoURL = fieldsObject.optString("VideoURL");
-                if(videoURL.contains("[") && videoURL.contains("\"")){
+                if (videoURL.contains("[") && videoURL.contains("\"")) {
                     videoURL = reformattedUrl(videoURL);
                 }
                 System.out.println("Video URL replaced : " + videoURL);
-                content.setBinaryHash(hashService.hashBinaryContent(videoURL));
+                content.setBinaryHash();
+                content.addBinaryHashToList(hashService.hashBinaryContent(videoURL));
                 System.out.println("Video hashed!");
                 break;
             case "File":
@@ -127,7 +129,7 @@ public class ContentFactory implements IContentFactory {
 
     private String reformattedUrl(String url) {
         // Replace
-        url = url.replaceAll("\\[","");
+        url = url.replaceAll("\\[", "");
         url = url.replaceAll("]", "");
 
         // Replace all occurrences of backslashes with forward slashes
