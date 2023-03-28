@@ -9,7 +9,7 @@ public interface IContentFactory {
 
     //methods
     int createContent(String tableName) throws JSONException, IOException;
-    Content createContentFromJson(JSONObject jsonObject);
+    Content createContentFromJson(JSONObject jsonObject) throws JSONException;
     String getFieldType(JSONObject fieldsObject);
-    boolean isContentAlreadyInDatabase(Content content);
+    boolean isContentAlreadyInDatabaseWithAirtableId(Content content);
 }

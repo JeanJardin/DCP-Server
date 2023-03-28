@@ -44,10 +44,10 @@ public class ContentFactory implements IContentFactory {
      * @throws RuntimeException if there is an error parsing the JSON response or an IOException occurs while calling the Airtable API
      */
     @Override
-    public int createContent(String tableName) {
-        int count = 0;
+    public int createContent(String tableName) throws JSONException {
         int countAdded = 0;
         int countPassed = 0;
+        int countUpdated = 0;
         List<JSONObject> jsonObjectList = null;
         try {
             jsonObjectList = airtableService.createJsonObject(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
@@ -56,28 +56,35 @@ public class ContentFactory implements IContentFactory {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         for (JSONObject object : jsonObjectList) {
-            Content content = null;
+            Content content = new Content();
             content = createContentFromJson(object);
-            if (!isContentAlreadyInDatabase(content)) {
+            //check for update
+
+            //check if match database
+            if (!isContentAlreadyInDatabaseWithAirtableId(content)) {
                 contentService.addContent(content);
                 countAdded++;
                 countPassed++;
-                System.out.println("No match found, adding this content into the database");
+                System.out.println("No airtable id match found, adding this content into the database");
             } else {
-                countPassed++;
-                System.out.println("--");
-                System.out.println("Duplicate content found skipping this content..");
-                System.out.println("Found this in the database :");
-                System.out.println(contentService.getContentRepository().findByJsonHash(content.getJsonHash().toString()));
+                if (contentService.updateContent(content)) {
+                    countUpdated++;
+                    countPassed++;
+                    System.out.println("Content is updated");
+                }else{
+                    countPassed++;
+                    System.out.println("--");
+                    System.out.println("Airtable id match, no update needed, skipping this content..");
+                    System.out.println("--");
+                }
 
-                System.out.println("--");
             }
         }
         System.out.println("----------------------");
         System.out.println("Reload finished with " + countAdded + " new contents");
         System.out.println("Reload finished by passing trough " + countPassed + " elements");
+        System.out.println("Reload finished by updating " + countUpdated + " elements");
         System.out.println("----------------------");
         return countAdded;
     }
@@ -90,40 +97,24 @@ public class ContentFactory implements IContentFactory {
      * @throws RuntimeException if there is an error parsing the JSON object
      */
     @Override
-    public Content createContentFromJson(JSONObject jsonObject) {
+    public Content createContentFromJson(JSONObject jsonObject) throws JSONException {
         Content content = new Content();
 
-        JSONObject fieldsObject;
-        try {
-            fieldsObject = jsonObject.getJSONObject("fields");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        List<String> listOfHttps = airtableService.findHttps(jsonObject);
+        // List<String> listHashes = new ArrayList<>();
+        // content.setBinaryHashes(listHashes);
+
+        //do the binary hashes
+        for (String httpsUrl : listOfHttps) {
+            System.out.println("Https URL in cCFj : " + httpsUrl);
+            content.addBinaryHashToList(hashService.hashBinaryContent(httpsUrl));
+            // listHashes.add(hashService.hashBinaryContent(httpsUrl));
+            System.out.println("added binary hash to list");
         }
-        // we have now the jsonObject and must get all https and hash it then add them to the binaryHashesList
-        String fieldType = getFieldType(fieldsObject);
-        switch (fieldType) {
-            case "VideoURL":
-                String videoURL = fieldsObject.optString("VideoURL");
-                if (videoURL.contains("[") && videoURL.contains("\"")) {
-                    videoURL = reformattedUrl(videoURL);
-                }
-                System.out.println("Video URL replaced : " + videoURL);
-                content.setBinaryHash();
-                content.addBinaryHashToList(hashService.hashBinaryContent(videoURL));
-                System.out.println("Video hashed!");
-                break;
-            case "File":
-                String fileURL = fieldsObject.optString("File");
-                content.setBinaryHash(hashService.hashBinaryContent(fileURL));
-                System.out.println("File hashed!");
-                break;
-            default:
-                System.out.println("No video fields found..");
-                break;
-        }
+
+        //do the jsonHash
         content.setJsonHash(hashService.hashContent(jsonObject));
         content.setAirtableID(jsonObject.optString("id"));
-
         return content;
     }
 
@@ -168,20 +159,15 @@ public class ContentFactory implements IContentFactory {
      * @return true if the Content object already exists in the database, false otherwise
      */
     @Override
-    public boolean isContentAlreadyInDatabase(Content content) {
-
-        if (contentService.getContentRepository().existsByBinaryHash(content.getBinaryHash())
-                || contentService.getContentRepository().existsByJsonHash(content.getJsonHash())) {
-
-            if (content.getBinaryHash() == null || content.getBinaryHash().equals("")) {
-                return false;
-            }
+    public boolean isContentAlreadyInDatabaseWithAirtableId(Content content) {
+        // if content already exist in database but has modified hash
+        //TODO compare with airtable id and not jsonHash
+        if (contentService.getContentRepository().existsByAirtableID(content.getAirtableID())) {
             return true;
         } else {
             return false;
         }
     }
-
     public ContentFactory() {
     }
 

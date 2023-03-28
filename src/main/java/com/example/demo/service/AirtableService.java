@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -123,6 +124,29 @@ public class AirtableService implements IAirtableService {
             return new String[]{};
         }
         return urls.split(",");
+    }
+
+    public List<String> findHttps(JSONObject jsonObject) throws JSONException {
+        List<String> result = new ArrayList<>();
+        Iterator<String> keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object value = jsonObject.get(key);
+            if (value instanceof JSONObject) {
+                result.addAll(findHttps((JSONObject) value));
+            } else if (value instanceof JSONArray) {
+                JSONArray array = (JSONArray) value;
+                for (int i = 0; i < array.length(); i++) {
+                    Object arrayValue = array.get(i);
+                    if (arrayValue instanceof JSONObject) {
+                        result.addAll(findHttps((JSONObject) arrayValue));
+                    }
+                }
+            } else if (value instanceof String && ((String) value).startsWith("https://")) {
+                result.add((String) value);
+            }
+        }
+        return result;
     }
 
     private String reformattedUrl(String url) {

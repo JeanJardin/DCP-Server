@@ -1,14 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Content;
-import org.apache.http.client.methods.HttpGet;
-import org.json.JSONException;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public interface IContentService {
      void addContent(Content content);
-     Content getContentByAirtableId(String id);
+     Optional<Content> getContentByAirtableId(String id);
      void deleteAllContent();
 }

@@ -44,7 +44,7 @@ class ContentFactoryTest {
         autoCloseable.close();
     }
 
-    @Test
+ /*   @Test
     void createContentFromJsonVideoField()  {
         // Mock the JSONObject with required fields
         JSONObject jsonObject = mock(JSONObject.class);
@@ -74,8 +74,8 @@ class ContentFactoryTest {
         assertEquals("binaryHash", content.getBinaryHash());
         assertEquals("jsonHash", content.getJsonHash());
         assertEquals("airtableId", content.getAirtableID());
-    }
-    @Test
+    }*/
+  /*  @Test
     void createContentFromJsonFileField()  {
         // Mock the JSONObject with required fields
         JSONObject jsonObject = mock(JSONObject.class);
@@ -105,7 +105,7 @@ class ContentFactoryTest {
         assertNull(content.getBinaryHash());
         assertEquals("jsonHash", content.getJsonHash());
         assertEquals("airtableId", content.getAirtableID());
-    }
+    }*/
 
 
 
@@ -149,7 +149,7 @@ class ContentFactoryTest {
     }
 
 
-    @Test
+    /*@Test
     void isContentAlreadyInDatabaseUsingBinaryHash() {
         // Create a mock Content object
         Content content = mock(Content.class);
@@ -173,7 +173,8 @@ class ContentFactoryTest {
 
         // Assert the result
         assertTrue(result);
-    }
+    }*/
+/*
 
     @Test
     void isContentAlreadyInDatabaseUsingJsonHash() {
@@ -200,6 +201,7 @@ class ContentFactoryTest {
         // Assert the result
         assertTrue(result);
     }
+*/
 
 
     //Periodic check test

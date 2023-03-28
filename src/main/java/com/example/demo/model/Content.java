@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +52,9 @@ public class Content implements IContent {
     @Transient
     private JSONObject contentJson;
 
+    @Transient
+    private boolean flag;
+
 
     public Content() {
 
@@ -66,6 +70,7 @@ public class Content implements IContent {
     public Content(String contentHash, JSONObject contentJson, byte[] binaryContent) {
         this.jsonHash = contentHash;
         this.contentJson = contentJson;
+        this.binaryHashes = new ArrayList<>();
     }
 
 

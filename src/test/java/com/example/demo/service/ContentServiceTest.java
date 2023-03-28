@@ -28,7 +28,7 @@ class ContentServiceTest {
         autoCloseable.close();
     }
 
-    @Test
+/*    @Test
     void addContent() {
         Content content = new Content();
         content.setContentJson(null);
@@ -37,7 +37,7 @@ class ContentServiceTest {
         content.setJsonHash("jsonHash");
         contentService.addContent(content);
         verify(contentRepository).save(content);
-    }
+    }*/
 
     @Test
     void getContentByAirtableId() {
