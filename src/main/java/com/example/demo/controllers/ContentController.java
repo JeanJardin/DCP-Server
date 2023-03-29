@@ -1,18 +1,14 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.Content;
 import com.example.demo.model.ContentFactory;
 import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
 import com.example.envUtils.DotenvConfig;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
-import java.util.List;
 
 /**
  * The ContentController class provides REST endpoints for managing contents.
@@ -70,32 +66,22 @@ public class ContentController {
 
         return "Finished !";
     }
-/*    @GetMapping("/addContent")
-    public String addContent() {
-        Content content = new Content();
-        content.setJsonHash("ADAKWDAKWD");
-        content.setContentJson(null);
-        try {
-            contentService.getContentRepository().save(content);
-        } catch (Exception e) {
-            System.out.println(e.getMessage().toString());
-        }
-        return "added !";
-    }*/
+
+    /**
+     * This method is used to download all the content from Airtable for each table and store it into the database.
+     * @param accessToken the access token used for authentication
+     * @throws AccessDeniedException if the provided access token is invalid
+     */
     @GetMapping("/downloadAllContent")
     public void test(@RequestParam("accessToken") String accessToken) throws AccessDeniedException {
         String expectedAccessToken = DotenvConfig.get("ACCESS_TOKEN");
         if (accessToken.equals(expectedAccessToken)) {
             String mySecretKey = DotenvConfig.get("MY_SECRET_KEY");
             System.out.println(mySecretKey);
-            // Your code logic goes here
-        //for each table in the airtable, get the elements and store it into the database
         } else {
             throw new AccessDeniedException("Invalid access token");
         }
     }
 
-    // input idairtable output concatenated hashes ADD ALSO ACCESS_TOKEN in parameters to allow only valid calls
-    // input void output void => reload data from server => download everything again
 
 }

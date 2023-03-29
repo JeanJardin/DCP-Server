@@ -48,20 +48,20 @@ public class ContentFactory implements IContentFactory {
         int countAdded = 0;
         int countPassed = 0;
         int countUpdated = 0;
-        List<JSONObject> jsonObjectList = null;
+        List<JSONObject> jsonObjectList;
+
+        // We get the table located on Airtable with parameters located in /resources/serverParameters.env
         try {
             jsonObjectList = airtableService.createJsonObject(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
-        for (JSONObject object : jsonObjectList) {
-            Content content = new Content();
-            content = createContentFromJson(object);
-            //check for update
 
-            //check if match database
+        // Iterate on each JSON Object found in the tab on Airtable
+        for (JSONObject object : jsonObjectList) {
+            Content content = createContentFromJson(object);
+
+            // Verify if the content exists with the AirtableID
             if (!isContentAlreadyInDatabaseWithAirtableId(content)) {
                 contentService.addContent(content);
                 countAdded++;
@@ -101,23 +101,25 @@ public class ContentFactory implements IContentFactory {
         Content content = new Content();
 
         List<String> listOfHttps = airtableService.findHttps(jsonObject);
-        // List<String> listHashes = new ArrayList<>();
-        // content.setBinaryHashes(listHashes);
 
-        //do the binary hashes
         for (String httpsUrl : listOfHttps) {
             System.out.println("Https URL in cCFj : " + httpsUrl);
             content.addBinaryHashToList(hashService.hashBinaryContent(httpsUrl));
-            // listHashes.add(hashService.hashBinaryContent(httpsUrl));
             System.out.println("added binary hash to list");
         }
 
-        //do the jsonHash
         content.setJsonHash(hashService.hashContent(jsonObject));
         content.setAirtableID(jsonObject.optString("id"));
         return content;
     }
 
+
+    /**
+     * This method reformats the provided URL to ensure it is in a standardized format for further processing.
+     *
+     * @param url the URL to be reformatted
+     * @return the reformatted URL
+     */
     private String reformattedUrl(String url) {
         // Replace
         url = url.replaceAll("\\[", "");
@@ -160,14 +162,9 @@ public class ContentFactory implements IContentFactory {
      */
     @Override
     public boolean isContentAlreadyInDatabaseWithAirtableId(Content content) {
-        // if content already exist in database but has modified hash
-        //TODO compare with airtable id and not jsonHash
-        if (contentService.getContentRepository().existsByAirtableID(content.getAirtableID())) {
-            return true;
-        } else {
-            return false;
-        }
+        return contentService.getContentRepository().existsByAirtableID(content.getAirtableID());
     }
+
     public ContentFactory() {
     }
 

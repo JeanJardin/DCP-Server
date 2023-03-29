@@ -54,12 +54,6 @@ public class ContentService implements IContentService {
         return contentRepository.findByAirtableID(id);
     }
 
-    @Override
-    public void deleteAllContent() {
-        contentRepository.deleteAll();
-        System.out.println("Database wiped out..");
-    }
-
     public ContentRepository getContentRepository() {
         return contentRepository;
     }
@@ -70,6 +64,7 @@ public class ContentService implements IContentService {
 
         if (contentFromDB.isPresent()) {
             Content contentDB = contentFromDB.get();
+
             if(contentDB.getJsonHash().equals(contentFromAirtable.getJsonHash())){
                 return false;
             }else {
@@ -83,11 +78,9 @@ public class ContentService implements IContentService {
                 contentRepository.save(contentDB);
                 return true;
             }
+
         } else {
             return false;
         }
-
     }
-
-
 }

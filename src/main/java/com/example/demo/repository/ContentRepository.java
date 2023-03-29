@@ -38,6 +38,13 @@ public interface ContentRepository extends MongoRepository<Content, String> {
      * @return true if a Content object with the specified JSON hash exists, false otherwise
      */
     boolean existsByJsonHash(String jsonHash);
+
+    /**
+     * This method checks if a record with the given Airtable ID exists in the database.
+     *
+     * @param airtableId the Airtable ID to check for existence
+     * @return true if a record with the given Airtable ID exists in the database, false otherwise
+     */
     boolean existsByAirtableID(String airtableId);
 
 
