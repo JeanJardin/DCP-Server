@@ -51,13 +51,11 @@ public class HashService implements IHashService {
             System.out.println("Downloading..");
         }
         // Wait for the result of the future
-        byte[] data = new byte[0];
+        byte[] data;
         try {
             data = dataTemp.get();
             System.out.println("Downloading finished");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
         return byteArrayToHex(hashData(data));
@@ -71,9 +69,17 @@ public class HashService implements IHashService {
      * @return a boolean response to tell if it matches or not
      */
     public boolean compareHashSignature(String hashMongoDB, String hashTablet) {
-        return hashMongoDB.equals(hashTablet) ? true : false;
+        return hashMongoDB.equals(hashTablet);
     }
 
+
+    /**
+     * Hashes a byte array using the specified hash algorithm.
+     *
+     * @param data the byte array to be hashed
+     * @return the resulting hashed byte array
+     * @throws RuntimeException if the specified hash algorithm is not available
+     */
     private byte[] hashData(byte[] data) {
         byte[] res;
         try {
@@ -85,6 +91,12 @@ public class HashService implements IHashService {
         return res;
     }
 
+    /**
+     * Converts a byte array to its hexadecimal representation as a String.
+     *
+     * @param a the byte array to convert
+     * @return the hexadecimal representation of the byte array
+     */
     private String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder(a.length * 2);
         for (byte b : a)

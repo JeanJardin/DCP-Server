@@ -7,5 +7,4 @@ import java.util.Optional;
 public interface IContentService {
      void addContent(Content content);
      Optional<Content> getContentByAirtableId(String id);
-     void deleteAllContent();
 }

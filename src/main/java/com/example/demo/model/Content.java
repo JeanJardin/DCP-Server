@@ -1,13 +1,11 @@
 package com.example.demo.model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,28 +56,6 @@ public class Content implements IContent {
 
     }
 
-    /**
-     * Constructs a new Content object with the specified content hash, content JSON, and binary content.
-     *
-     * @param contentHash   The content hash of the Content object.
-     * @param contentJson   The content JSON of the Content object.
-     * @param binaryContent The binary content of the Content object.
-     */
-    public Content(String contentHash, JSONObject contentJson, byte[] binaryContent) {
-        this.jsonHash = contentHash;
-        this.contentJson = contentJson;
-        this.binaryHashes = new ArrayList<>();
-    }
-
-
-    public String getContentID() {
-        return contentID;
-    }
-
-    public void setContentID(String contentID) {
-        this.contentID = contentID;
-    }
-
     public String getAirtableID() {
         return airtableID;
     }
@@ -95,23 +71,6 @@ public class Content implements IContent {
 
     public void setJsonHash(String jsonHash) {
         this.jsonHash = jsonHash;
-    }
-
-
-    public JSONObject getContentJson() {
-        return contentJson;
-    }
-
-    public void setContentJson(JSONObject contentJson) {
-        this.contentJson = contentJson;
-    }
-
-    public String getContentName() {
-        return contentName;
-    }
-
-    public void setContentName(String contentName) {
-        this.contentName = contentName;
     }
 
     public List<String> getBinaryHashes() {
