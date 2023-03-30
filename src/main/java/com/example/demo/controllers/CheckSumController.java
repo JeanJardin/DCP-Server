@@ -31,22 +31,6 @@ public class CheckSumController implements IChecksumController{
     public static ScheduledExecutorService schedule;
 
 
-    /**
-     * Starts a periodic check of content integrity with the specified interval in minutes.
-     * @param intervalMinutes the interval in minutes at which the check should be performed
-     * @throws NullPointerException if the method checkContentIntegrity is not implemented or returns null
-     */
-    public static void startPeriodicCheck(int intervalMinutes) {
-        ScheduledExecutorService schedule;
-        schedule = Executors.newSingleThreadScheduledExecutor();
-
-        schedule.scheduleAtFixedRate(() -> {
-            // Appeler la méthode checkContentIntegrity ici
-            System.out.println("Periodic check: "+ LocalDateTime.now());
-            //checkContentIntegrity(contentID);
-        }, 0, intervalMinutes, TimeUnit.SECONDS);
-    }
-
 
     /**
      * Stops the periodic check of content integrity that was started using the startPeriodicCheck method.

@@ -5,7 +5,11 @@ import com.example.demo.repository.ContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class implements the IContentService interface and is responsible for providing the necessary functionalities for
@@ -88,6 +92,22 @@ public class ContentService implements IContentService {
         }
 
     }
+
+    /**
+     * Starts a periodic check of content integrity with the specified interval in minutes.
+     * @param intervalMinutes the interval in minutes at which the check should be performed
+     * @throws NullPointerException if the method checkContentIntegrity is not implemented or returns null
+     */
+    public static void startPeriodicCheck(int intervalMinutes) {
+        ScheduledExecutorService schedule;
+        schedule = Executors.newSingleThreadScheduledExecutor();
+
+        schedule.scheduleAtFixedRate(() -> {
+
+            System.out.println("Periodic check: "+ LocalDateTime.now());
+        }, 0, intervalMinutes, TimeUnit.SECONDS);
+    }
+
 
 
 }

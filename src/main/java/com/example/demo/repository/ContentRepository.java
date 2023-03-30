@@ -4,6 +4,7 @@ import com.example.demo.model.Content;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,6 +40,7 @@ public interface ContentRepository extends MongoRepository<Content, String> {
      */
     boolean existsByJsonHash(String jsonHash);
     boolean existsByAirtableID(String airtableId);
+
 
 
 

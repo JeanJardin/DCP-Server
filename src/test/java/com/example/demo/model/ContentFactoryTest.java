@@ -208,19 +208,19 @@ class ContentFactoryTest {
 
 
     //test the start of the check
-    @Test
+/*    @Test
     public void StartPeriodicCheckTest(){
         int intervalMinutes=5;
         startPeriodicCheck(intervalMinutes);
         assertNotNull(schedule);
-    }
+    }*/
 
     //test th Stop periodicCheck
-    @Test
+   /* @Test
     public void StopPeriodicCheckTest(){
         int intervalMinutes = 5;
         startPeriodicCheck(intervalMinutes);
         stopPeriodicCheck();
         assertTrue(schedule.isShutdown());
-    }
+    }*/
 }

@@ -58,8 +58,6 @@ public class AirtableService implements IAirtableService {
     }
 
     JSONObject getResponse(String tableName, String baseId, String accessToken, String offset) throws IOException, JSONException {
-
-
         HttpClient httpClient = HttpClientBuilder.create().build();
         if (offset != null) {
             request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName + "?offset=" + offset);
@@ -76,7 +74,6 @@ public class AirtableService implements IAirtableService {
 
     public List<JSONObject> createJsonObject(String tableName, String baseID, String accessToken) throws JSONException, IOException {
         String offset = null;
-        JSONObject jsonObject;
         List<JSONObject> jsonObjectList = new ArrayList<>();
         do {
             var response = getResponse(tableName, baseID, accessToken, offset);

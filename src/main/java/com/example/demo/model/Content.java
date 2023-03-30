@@ -52,8 +52,6 @@ public class Content implements IContent {
     @Transient
     private JSONObject contentJson;
 
-    @Transient
-    private boolean flag;
 
 
     public Content() {
@@ -85,6 +83,7 @@ public class Content implements IContent {
     public String getAirtableID() {
         return airtableID;
     }
+
 
     public void setAirtableID(String airtableID) {
         this.airtableID = airtableID;

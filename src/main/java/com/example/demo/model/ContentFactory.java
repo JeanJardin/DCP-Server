@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class ContentFactory implements IContentFactory {
         int countAdded = 0;
         int countPassed = 0;
         int countUpdated = 0;
+
         List<JSONObject> jsonObjectList = null;
         try {
             jsonObjectList = airtableService.createJsonObject(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
@@ -60,7 +62,6 @@ public class ContentFactory implements IContentFactory {
             Content content = new Content();
             content = createContentFromJson(object);
             //check for update
-
             //check if match database
             if (!isContentAlreadyInDatabaseWithAirtableId(content)) {
                 contentService.addContent(content);
