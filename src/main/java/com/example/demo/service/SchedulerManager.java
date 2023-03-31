@@ -14,7 +14,9 @@ public class SchedulerManager {
     @Autowired
     private ContentController contentController;
 
-    @Scheduled(fixedDelay = 1800000,initialDelay = 1800000) // 30 minutes
+    //TODO Initial delay is added to avoid interference during development
+    // when production mode remove the initial delay. -A.B
+    @Scheduled(fixedDelay = 1800000, initialDelay = 1800000) // 30 minutes
     public void reload() throws JSONException, IOException {
         contentController.reloadContentAll();
     }

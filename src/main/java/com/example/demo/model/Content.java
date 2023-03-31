@@ -1,11 +1,13 @@
 package com.example.demo.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +57,17 @@ public class Content implements IContent {
     public Content() {
 
     }
+
+    public static JSONObject toJson(Content content) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("contentID", content.contentID);
+        jsonObject.put("airtableID", content.airtableID);
+        jsonObject.put("jsonHash", content.jsonHash);
+        jsonObject.put("contentName", content.contentName);
+        jsonObject.put("binaryHashes", content.binaryHashes);
+        return jsonObject;
+    }
+
 
     public String getAirtableID() {
         return airtableID;
