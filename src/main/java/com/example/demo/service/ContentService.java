@@ -78,9 +78,9 @@ public class ContentService implements IContentService {
                 return false;
             }else {
                 System.out.println("--UPDATE INFO--");
-                System.out.println("Airtable id matched : " + contentDB.getAirtableID());
-                System.out.println("JSON HASH of airtable matched : " + contentFromAirtable.getJsonHash());
-                System.out.println("JSON HASH of contentDB  matched : " + contentDB.getJsonHash());
+                System.out.println("Airtable id found in DB : " + contentDB.getAirtableID());
+                System.out.println("New JSON HASH of airtable : " + contentFromAirtable.getJsonHash());
+                System.out.println("Old JSON HASH of contentDB: " + contentDB.getJsonHash());
                 System.out.println("----");
                 contentDB.setJsonHash(contentFromAirtable.getJsonHash());
                 contentDB.setBinaryHashes(contentFromAirtable.getBinaryHashes());

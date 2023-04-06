@@ -59,7 +59,7 @@ public class AirtableService implements IAirtableService {
             request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
         }
 
-        request.setHeader("Authorization", "Bearer " + accessToken);
+        request.setHeader("Authorization",accessToken);
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         System.out.println(response);
         return new JSONObject(response);
@@ -104,11 +104,14 @@ public class AirtableService implements IAirtableService {
     public String[] getAirtableTabNames() throws JSONException, IOException {
         httpClient = HttpClientBuilder.create().build();
         request = new HttpGet(DotenvConfig.get("HTTP_AIRTABLE_TABLES") + DotenvConfig.get("BASE_ID") + "/tables");
-        request.setHeader("Authorization", "Bearer " + DotenvConfig.get("ACCESS_TOKEN"));
+        request.setHeader("Authorization",DotenvConfig.get("ACCESS_TOKEN"));
 
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
 
         JSONObject jsonObject = new JSONObject(response);
+        System.out.println("JSON OBJECT IS" +jsonObject);
+        System.out.println("ACCESS_TOKEN IS :"+DotenvConfig.get("ACCESS_TOKEN"));
+        System.out.println("BASE_ID IS :"+DotenvConfig.get("BASE_ID"));
         JSONArray tables = jsonObject.getJSONArray("tables");
 
         return getTableNamesFromJsonArray(tables);

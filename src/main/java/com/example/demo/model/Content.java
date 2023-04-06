@@ -55,7 +55,7 @@ public class Content implements IContent {
 
 
     public Content() {
-
+        this.binaryHashes = new ArrayList<>();
     }
 
     public static JSONObject toJson(Content content) throws JSONException {
