@@ -1,14 +1,4 @@
 package com.example.demo.service;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.example.envUtils.DotenvConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +9,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class AirtableServiceTest {
 
@@ -57,6 +58,45 @@ class AirtableServiceTest {
 
         assertEquals(mapper.readTree(String.valueOf(expectedJSONObject)), mapper.readTree(String.valueOf(actualJSONObject)));
     }
+
+
+    /*
+    @Test
+    public void testGetResponse() throws Exception {
+        // Given
+        String tableName = "myTable";
+        String baseId = "myBaseId";
+        String accessToken = "myAccessToken";
+        String offset = "myOffset";
+        String responseString = "{\"records\": [], \"offset\": \"myNewOffset\"}";
+        HttpEntity entity = mock(HttpEntity.class);
+        HttpResponse httpResponse = mock(HttpResponse.class);
+        given(httpResponse.getEntity()).willReturn(entity);
+        given(entity.getContent()).willReturn(new ByteArrayInputStream(responseString.getBytes()));
+        HttpClient httpClient = mock(HttpClient.class);
+        given(httpClient.execute(any(HttpGet.class))).willReturn(httpResponse);
+        JSONObject expectedResponse = new JSONObject(responseString);
+
+        // When
+        JSONObject actualResponse = getResponse(tableName, baseId, accessToken, offset);
+
+        // Then
+        verify(httpClient).execute(request);
+        assertEquals(expectedResponse.toString(), actualResponse.toString());
+    }
+
+
+    */
+
+
+
+
+
+
+
+
+
+
 
 
     /**

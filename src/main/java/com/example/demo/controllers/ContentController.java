@@ -4,13 +4,13 @@ import com.example.demo.model.Content;
 import com.example.demo.model.ContentFactory;
 import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,6 @@ import java.util.Optional;
 public class ContentController {
     private final ContentFactory contentFactory;
     private final ContentService contentService;
-
     private final AirtableService airtableService;
 
     /**
@@ -41,6 +40,14 @@ public class ContentController {
         this.airtableService = airtableService;
     }
 
+
+    /**
+     * Reloads all the content from Airtable by retrieving the list of airtable tab names and creating content for each tab using the contentFactory
+     *
+     * @return  a String indicating the process was finished successfully.
+     * @throws JSONException if there's an error parsing JSON.
+     * @throws IOException if there's an error with I/O operations.
+     */
     @GetMapping("/reloadAll")
     public String reloadContentAll() throws JSONException, IOException {
         String[] tabNames = airtableService.getAirtableTabNames();
@@ -51,6 +58,14 @@ public class ContentController {
         return "Finished !";
     }
 
+
+    /**
+     *This methode handles GET request to retrive the binary hasehs associated with a specific airtable ID
+     *
+     * @param airtableID the airtable ID for which to retrieve the binary hashes
+     * @return a ResponseEntitxy containing a list of binary hashes, with HTTP status 200 if successful or HTTP status 404 if the airtable ID is not found
+     * @throws JSONException if there is an error parsing the JSON response from Content Service
+     */
     @GetMapping(path = "/getBinaryHashesFromAirtableID", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getBinaryHashesFromAirtableID(@RequestParam("airtableID") String airtableID) throws JSONException {
         Optional<Content> contentFound = contentService.getContentByAirtableId(airtableID);
@@ -63,6 +78,14 @@ public class ContentController {
         }
     }
 
+
+    /**
+     * Return the JSon Hash corresponding to the specified Airtable ID
+     *
+     * @param airtableID the Airtable ID of the content to retrieve the JSON hash for
+     * @return a ResponseEntity containing the JSON hash as a String if the content is found
+     * @throws JSONException if there is an error parsing the JSON hash
+     */
     @GetMapping(path = "/getJsonHashFromAirtableID", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getJsonHashFromAirtableID(@RequestParam("airtableID") String airtableID) throws JSONException {
         Optional<Content> contentFound = contentService.getContentByAirtableId(airtableID);
@@ -73,5 +96,4 @@ public class ContentController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
