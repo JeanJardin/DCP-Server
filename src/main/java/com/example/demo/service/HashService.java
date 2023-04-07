@@ -80,7 +80,7 @@ public class HashService implements IHashService {
      * @return the resulting hashed byte array
      * @throws RuntimeException if the specified hash algorithm is not available
      */
-    private byte[] hashData(byte[] data) {
+    static byte[] hashData(byte[] data) {
         byte[] res;
         try {
             MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -97,7 +97,7 @@ public class HashService implements IHashService {
      * @param a the byte array to convert
      * @return the hexadecimal representation of the byte array
      */
-    private String byteArrayToHex(byte[] a) {
+    public static String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder(a.length * 2);
         for (byte b : a)
             sb.append(String.format("%02x", b));

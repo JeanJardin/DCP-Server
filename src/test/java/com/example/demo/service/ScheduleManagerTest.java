@@ -17,13 +17,17 @@ public class ScheduleManagerTest {
     private SchedulerManager myClass;
     @Mock
     private ContentController contentController;
+
+
+    /**
+     * Test that the reload works and call the methode correctly
+     * @throws JSONException
+     * @throws IOException
+     */
     @Test
-    public void reload_shouldCallReloadContentAllMethodOnce() throws JSONException, IOException {
-        // Arrange
-        MockitoAnnotations.openMocks(this); // initialisation des mocks
-        // Act
+    public void reloadTest() throws JSONException, IOException {
+        MockitoAnnotations.openMocks(this);
         myClass.reload();
-        // Assert
         Mockito.verify(contentController, times(1)).reloadContentAll(); // vérification que la méthode a bien été appelée une fois
     }
 }
