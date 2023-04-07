@@ -5,11 +5,18 @@ import com.example.demo.model.ContentFactory;
 import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
 import org.junit.Before;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-    @SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@SpringBootTest
     public class ContentControllerTest {
 
         @Autowired
@@ -28,24 +35,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
         public void setUp() {
             contentController = new ContentController(contentService, contentFactory, airtableService);
         }
-    /*
+
         @Test
-        public void testReloadContentAll() throws Exception {
-            // Given
+        public void reloadContentAllTest() throws Exception {
             String[] tabNames = new String[]{"tab1", "tab2", "tab3"};
             given(airtableService.getAirtableTabNames()).willReturn(tabNames);
-
-            // When
             String result = contentController.reloadContentAll();
-
-            // Then
             verify(airtableService).getAirtableTabNames();
             verify(contentFactory, times(3)).createContent(anyString());
-            assertThat(result).isEqualTo("Finished !");
-
+            assertTrue(result.equals("Finished !"));
         }
 
-
+        /*
 
         @Test
         public void testGetBinaryHashesFromAirtableID() throws JSONException {

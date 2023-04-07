@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,7 +118,7 @@ public class ContentFactory implements IContentFactory {
         return content;
     }
 
-    private String reformattedUrl(String url) {
+    String reformattedUrl(String url) {
         // Replace
         url = url.replaceAll("\\[", "");
         url = url.replaceAll("]", "");

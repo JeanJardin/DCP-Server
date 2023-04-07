@@ -21,9 +21,9 @@ import java.util.List;
 @Service
 public class AirtableService implements IAirtableService {
 
-    private HttpClient httpClient;
-    private HttpGet request;
-    private List<JSONObject> jsonObjectList;
+    private static HttpClient httpClient;
+    private static HttpGet request;
+    private static List<JSONObject> jsonObjectList;
 
     /**
      * Method to get the JSONObject through the airtable get
@@ -31,8 +31,8 @@ public class AirtableService implements IAirtableService {
      * @param tableName name of the table we want in the airtable database
      * @return a list of jsonObject correspond to the content
      */
-    @Override
-    public List<JSONObject> getResponseList(String tableName, String baseId, String accessToken) throws JSONException, IOException {
+
+    public static List<JSONObject> getResponseList(String tableName, String baseId, String accessToken) throws JSONException, IOException {
 
         httpClient = HttpClientBuilder.create().build();
         request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName + "?maxRecords=200");

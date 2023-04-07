@@ -7,15 +7,18 @@ import com.example.demo.service.HashService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 class ContentFactoryTest {
 
@@ -62,40 +65,29 @@ class ContentFactoryTest {
         content.addBinaryHashToList("hashVideoURL");
         content.addBinaryHashToList("hashFile");
 
-        Mockito.when(airtableService.findHttps(jsonObject)).thenReturn(listOfUrls);
-        Mockito.when(hashService.hashContent(jsonObject)).thenReturn("hash");
-        Mockito.when(hashService.hashBinaryContent(videoURL)).thenReturn("hashVideoURL");
-        Mockito.when(hashService.hashBinaryContent(fileURL)).thenReturn("hashFile");
+        when(airtableService.findHttps(jsonObject)).thenReturn(listOfUrls);
+        when(hashService.hashContent(jsonObject)).thenReturn("hash");
+        when(hashService.hashBinaryContent(videoURL)).thenReturn("hashVideoURL");
+        when(hashService.hashBinaryContent(fileURL)).thenReturn("hashFile");
 
-        // When
         Content result = contentFactory.createContentFromJson(jsonObject);
 
-        // Then
-        Assertions.assertEquals(content, result);
+        assertEquals(content, result);
     }
 
 
-    /*
+
     @Test
     void testReformattedUrl() {
-        // Given
         String url = "[http:\\\\example.com\\test]";
         String expectedResult = "http://example.com/test";
-
-        // When
         String result = contentFactory.reformattedUrl(url);
-
-        // Then
-        Assertions.assertEquals(expectedResult, result);
+        assertEquals(expectedResult, result);
     }
 
 
-
-
-
-
     @Test
-    public void getFieldFile() {
+    public void getFieldFileTest() {
         // Create a mock JSONObject with a "File" field
         JSONObject fieldsObject2 = mock(JSONObject.class);
         when(fieldsObject2.has("File")).thenReturn(true);
@@ -108,7 +100,7 @@ class ContentFactoryTest {
     }
 
     @Test
-    public void getFielNoField() {
+    public void getFielNoFieldTest() {
         // Create a mock JSONObject with no video fields
         JSONObject fieldsObject3 = mock(JSONObject.class);
         when(fieldsObject3.has("VideoURL")).thenReturn(false);
@@ -121,28 +113,19 @@ class ContentFactoryTest {
         assertEquals("NoField", fieldType3);
     }
 
-    /*
+
     @Test
     public void testIsContentAlreadyInDatabaseWithAirtableId() {
         // Given
-        String airtableId = "123456";
-        String jsonHash = "abcde";
         Content content = new Content();
-        content.setAirtableID(airtableId);
-        content.setJsonHash(jsonHash);
-        ContentRepository contentRepository = mock(ContentRepository.class);
-        ContentService contentService = new ContentService(contentRepository);
-        given(contentRepository.existsByAirtableID(airtableId)).willReturn(true);
-        ContentService contentService = new ContentService(contentService);
+        content.setAirtableID("rec123");
+        given(contentService.getContentRepository().existsByAirtableID("rec123")).willReturn(true);
 
         // When
-        boolean result = contentService.isContentAlreadyInDatabaseWithAirtableId(content);
+        boolean result = contentFactory.isContentAlreadyInDatabaseWithAirtableId(content);
 
         // Then
         assertTrue(result);
+        verify(contentService.getContentRepository(), times(1)).existsByAirtableID("rec123");
     }
-
-    */
-
-
 }

@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 import com.example.envUtils.DotenvConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,25 +12,66 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class AirtableServiceTest {
 
+
     @Test
-    void request() {
+    void getResponseListTest() throws JSONException, IOException {
+        String tableName = "ContainerCodes";
+        AirtableService airtableService = new AirtableService();
+        List<JSONObject> expectedJSONObject = airtableService.getResponseList(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
+
+        assertNotNull(expectedJSONObject);
+        assertTrue(expectedJSONObject.size() > 0);
+    }
+
+
+    @Test
+    void getResponseTest(){
 
     }
 
 
-    /**
-     * Test method to verify the tab content on Airtable
-     * @throws JSONException
-     * @throws IOException
-     */
+    @Test
+    void createJSonObjectTest(){
+
+    }
+
+
+    @Test
+    void getAirtableTabNamesTest(){
+
+    }
+
+
+    @Test
+    void getTableNamesFromJSonArrayTest(){
+
+    }
+
+    @Test
+    void separateUrlTest(){
+
+    }
+
+
+    @Test
+    void findHttpsTest(){
+
+    }
+
+    @Test
+    void reformattedUrlTest(){
+
+    }
+
+
+    /*
     @Test
     public void getResponseList() throws JSONException, IOException {
         String tableName = "ContainerCodes";
