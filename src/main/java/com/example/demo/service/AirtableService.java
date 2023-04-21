@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.envUtils.DotenvConfig;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -20,6 +21,11 @@ import java.util.List;
  */
 @Service
 public class AirtableService implements IAirtableService {
+	
+    Dotenv dotenv = Dotenv.configure().load();
+    String ACCESS_TOKEN = dotenv.get("ACCESS_TOKEN");
+    String BASE_ID = dotenv.get("BASE_ID");
+    String HTTP_AIRTABLE_TABLES = dotenv.get("HTTP_AIRTABLE_TABLES");
 
     private static HttpClient httpClient;
     private static HttpGet request;
@@ -103,15 +109,15 @@ public class AirtableService implements IAirtableService {
     @Override
     public String[] getAirtableTabNames() throws JSONException, IOException {
         httpClient = HttpClientBuilder.create().build();
-        request = new HttpGet(DotenvConfig.get("HTTP_AIRTABLE_TABLES") + DotenvConfig.get("BASE_ID") + "/tables");
-        request.setHeader("Authorization",DotenvConfig.get("ACCESS_TOKEN"));
+        request = new HttpGet(HTTP_AIRTABLE_TABLES + BASE_ID + "/tables");
+        request.setHeader("Authorization", ACCESS_TOKEN);
 
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
 
         JSONObject jsonObject = new JSONObject(response);
         System.out.println("JSON OBJECT IS" +jsonObject);
-        System.out.println("ACCESS_TOKEN IS :"+DotenvConfig.get("ACCESS_TOKEN"));
-        System.out.println("BASE_ID IS :"+DotenvConfig.get("BASE_ID"));
+        System.out.println("ACCESS_TOKEN IS :"+ ACCESS_TOKEN);
+        System.out.println("BASE_ID IS :"+ BASE_ID);
         JSONArray tables = jsonObject.getJSONArray("tables");
 
         return getTableNamesFromJsonArray(tables);

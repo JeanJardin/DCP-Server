@@ -4,6 +4,7 @@ import com.example.demo.service.AirtableService;
 import com.example.demo.service.ContentService;
 import com.example.demo.service.HashService;
 import com.example.envUtils.DotenvConfig;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ import java.util.List;
  */
 @Service
 public class ContentFactory implements IContentFactory {
+	
+    Dotenv dotenv = Dotenv.configure().load();
+    String ACCESS_TOKEN = dotenv.get("ACCESS_TOKEN");
+    String BASE_ID = dotenv.get("BASE_ID");
+    String HTTP_AIRTABLE_TABLES = dotenv.get("HTTP_AIRTABLE_TABLES");
     /**
      * The ContentService used to add content to the database and check whether content already exists in the database.
      */
@@ -51,7 +57,7 @@ public class ContentFactory implements IContentFactory {
 
         List<JSONObject> jsonObjectList = null;
         try {
-            jsonObjectList = airtableService.createJsonObject(tableName, DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN"));
+            jsonObjectList = airtableService.createJsonObject(tableName, BASE_ID, ACCESS_TOKEN);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
