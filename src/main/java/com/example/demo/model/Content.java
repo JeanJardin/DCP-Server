@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a content object that can be persisted and retrieved.
  * Implements the IContent interface.
@@ -35,7 +38,13 @@ public class Content implements IContent {
      * Can be persisted.
      */
     @Field
-    private String binaryHash;
+    private String contentName;
+    /**
+     * The hash of binary data of the content.
+     * Can be persisted.
+     */
+    @Field
+    private List<String> binaryHashes;
     /**
      * The content JSON associated with the content object.
      * Not persisted.
@@ -44,68 +53,26 @@ public class Content implements IContent {
     private JSONObject contentJson;
 
 
+
     public Content() {
-
+        this.binaryHashes = new ArrayList<>();
     }
 
-    /**
-     * Constructs a new Content object with the specified content hash, content JSON, and binary content.
-     *
-     * @param contentHash   The content hash of the Content object.
-     * @param contentJson   The content JSON of the Content object.
-     * @param binaryContent The binary content of the Content object.
-     */
-    public Content(String contentHash, JSONObject contentJson, byte[] binaryContent) {
-        this.jsonHash = contentHash;
-        this.contentJson = contentJson;
+    public static JSONObject toJson(Content content) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("contentID", content.contentID);
+        jsonObject.put("airtableID", content.airtableID);
+        jsonObject.put("jsonHash", content.jsonHash);
+        jsonObject.put("contentName", content.contentName);
+        jsonObject.put("binaryHashes", content.binaryHashes);
+        return jsonObject;
     }
 
-    /**
-     * Converts a JSON string into a Content object.
-     *
-     * @param json The JSON string to convert.
-     * @return The Content object created from the JSON string.
-     * @throws JSONException If there was an error parsing the JSON string.
-     */
-    public static Content fromJson(String json) throws JSONException {
-        JSONObject obj = null;
-        try {
-            obj = new JSONObject(json);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        //
-        String contentHash = null;
-        try {
-            contentHash = obj.getString("contentHash");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        JSONObject contentJson = obj.getJSONObject("contentJson");
-        byte[] binaryContent = new byte[0];
-        Content content = new Content(contentHash, contentJson, binaryContent);
-        String contentID = obj.optString("contentID");
-        if (!contentID.isEmpty()) {
-            content.setContentID(contentID);
-        }
-        String airtableID = obj.optString("airtableID");
-        if (!airtableID.isEmpty()) {
-            content.setAirtableID(airtableID);
-        }
-        return content;
-    }
-
-    public String getContentID() {
-        return contentID;
-    }
-
-    public void setContentID(String contentID) {
-        this.contentID = contentID;
-    }
 
     public String getAirtableID() {
         return airtableID;
     }
+
 
     public void setAirtableID(String airtableID) {
         this.airtableID = airtableID;
@@ -119,19 +86,27 @@ public class Content implements IContent {
         this.jsonHash = jsonHash;
     }
 
-    public String getBinaryHash() {
-        return binaryHash;
+    public List<String> getBinaryHashes() {
+        return binaryHashes;
     }
 
-    public void setBinaryHash(String binaryHash) {
-        this.binaryHash = binaryHash;
+    public void setBinaryHashes(List<String> binaryHashes) {
+        this.binaryHashes = binaryHashes;
     }
 
-    public JSONObject getContentJson() {
-        return contentJson;
+    public void addBinaryHashToList(String binaryHash) {
+        binaryHashes.add(binaryHash);
     }
 
-    public void setContentJson(JSONObject contentJson) {
-        this.contentJson = contentJson;
+    @Override
+    public String toString() {
+        return "Content{" +
+                "contentID='" + contentID + '\'' +
+                ", airtableID='" + airtableID + '\'' +
+                ", jsonHash='" + jsonHash + '\'' +
+                ", contentName='" + contentName + '\'' +
+                ", binaryHashes=" + binaryHashes +
+                ", contentJson=" + contentJson +
+                '}';
     }
 }

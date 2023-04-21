@@ -1,0 +1,1012 @@
+{
+  "tables": [
+    {
+      "id": "tblJ0qN3iFYPbgpbu",
+      "name": "Testimonials",
+      "description": "Discussions de bars",
+      "primaryFieldId": "fldOEVXSksV2g6Md1",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fld5nk4Ep1pwEZuKO"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldOEVXSksV2g6Md1",
+          "name": "Name"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldYA5kA8DIdFqc0i",
+          "name": "DescriptiveName"
+        },
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldSVI6uNI4EnIVi0",
+              "fldXTYCVOFxrDzJrw",
+              "fld5nk4Ep1pwEZuKO"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldEhziTPbFlWVf1q",
+          "name": "Key"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblcBFibs2wJYFGHr",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldp6Ioxtww0rOXYj"
+          },
+          "id": "fldZ5GISy58IGK2rl",
+          "name": "Video"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": false
+          },
+          "id": "fldJcSVhT3HhtSbUN",
+          "name": "Audio"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selwNPcZ5oDIuH5k8",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selsuTU4yyrf3Kzew",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldXTYCVOFxrDzJrw",
+          "name": "Lang"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fld5nk4Ep1pwEZuKO",
+          "name": "Number"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldSVI6uNI4EnIVi0",
+          "name": "Step"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fldZ5GISy58IGK2rl",
+            "fieldIdInLinkedTable": "flds1qBkZGeATs0GO",
+            "result": {
+              "type": "url"
+            }
+          },
+          "id": "fldmARgHJqflZ98Fv",
+          "name": "VideoURL"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwUcCx46VGrD2R9y",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwtwr6KTHetAcr5U",
+          "name": "DE",
+          "type": "grid"
+        },
+        {
+          "id": "viwpx6O3pAQIhUB6J",
+          "name": "All",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblyps9yvMC43pSBH",
+      "name": "Terminals",
+      "description": "Bornes",
+      "primaryFieldId": "fldD3Xjnxzzh8ffDe",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldD3Xjnxzzh8ffDe",
+          "name": "Name"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldionhZCmrxC4lob",
+          "name": "Number"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblcBFibs2wJYFGHr",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldevKK2GDafjXqow"
+          },
+          "id": "fldOuI4nLcMXyTvRy",
+          "name": "Video"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblIrHnaBD5WRIYAp",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fld5XbNN5GurOFXP3"
+          },
+          "id": "fld0ZDyUqkPaQxupg",
+          "name": "Activity",
+          "description": "Activité (Nuage de mots)"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldl8Q0b9DpM1e5w2",
+          "name": "Location"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fld5Qqdg7jxnf6NcS",
+          "name": "PositionX"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldTz4xGxquoVCKdK",
+          "name": "PositionY"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblyps9yvMC43pSBH",
+            "isReversed": false,
+            "prefersSingleRecordLink": false
+          },
+          "id": "fldU0vKdHbUjoBh1s",
+          "name": "Link"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "sel04jBRbD6m6imaK",
+                "name": "DE",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "sel8i8x5a6zRFOVOA",
+                "name": "FR",
+                "color": "blueLight2"
+              }
+            ]
+          },
+          "id": "fld5KZu2j89g1FCVd",
+          "name": "Lang"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldfuCaM1wKyPl52d",
+          "name": "UUID"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fldOuI4nLcMXyTvRy",
+            "fieldIdInLinkedTable": "flds1qBkZGeATs0GO",
+            "result": {
+              "type": "url"
+            }
+          },
+          "id": "fld8RkDnGpc1rx01T",
+          "name": "VideoURL"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fld0ZDyUqkPaQxupg",
+            "fieldIdInLinkedTable": "fldWgCsoobCmnrTCb",
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldljye446Lu8MwAS",
+          "name": "ActivityName"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwJBETzj2kGvbkzL",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwiVtsf6OSIslUv7",
+          "name": "DE",
+          "type": "grid"
+        },
+        {
+          "id": "viwsS8CDReJbuMpoP",
+          "name": "All",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblIrHnaBD5WRIYAp",
+      "name": "WordsClouds",
+      "description": "Nuage de mots",
+      "primaryFieldId": "fldWgCsoobCmnrTCb",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldWgCsoobCmnrTCb",
+          "name": "Name"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblPtBNd29cD5oN4W",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldGcbNnWnXXkplmE"
+          },
+          "id": "fldem2ugyNt98Sn2Q",
+          "name": "Boxes"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblyps9yvMC43pSBH",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fld0ZDyUqkPaQxupg"
+          },
+          "id": "fld5XbNN5GurOFXP3",
+          "name": "Used in"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selAQmp9ZYnsFHJUb",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "seljOKfrlyuWBRP0v",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldaZsIfkjQcRxApY",
+          "name": "Lang"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwsAdV8ZHuxzvaKt",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwQUUyNYyTPCFrC6",
+          "name": "DE",
+          "type": "grid"
+        },
+        {
+          "id": "viwCbT9NdiY5RFvpd",
+          "name": "All",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblPtBNd29cD5oN4W",
+      "name": "Boxes",
+      "description": "Emplacements (Nuage de mots)",
+      "primaryFieldId": "fld5CA6epEs7DSOPd",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldGcbNnWnXXkplmE",
+              "fldTjqVAorILIm7XE"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fld5CA6epEs7DSOPd",
+          "name": "Name"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldayyILVihTTOuuq",
+          "name": "PositionX"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldmnUOrjbYDtWyGh",
+          "name": "PositionY"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldTjqVAorILIm7XE",
+          "name": "CorrectWord"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblIrHnaBD5WRIYAp",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldem2ugyNt98Sn2Q"
+          },
+          "id": "fldGcbNnWnXXkplmE",
+          "name": "WordClouds"
+        },
+        {
+          "type": "checkbox",
+          "options": {
+            "icon": "check",
+            "color": "greenBright"
+          },
+          "id": "fldhoKjY7eMINyO1l",
+          "name": "Completed"
+        },
+        {
+          "type": "checkbox",
+          "options": {
+            "icon": "check",
+            "color": "greenBright"
+          },
+          "id": "fldQPpvSxjrUJPfNk",
+          "name": "Topic"
+        },
+        {
+          "type": "richText",
+          "id": "fldxwbdItssby7Gnd",
+          "name": "TextContent"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblcBFibs2wJYFGHr",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldyGEgZj39aw9L1D"
+          },
+          "id": "fld8Wh63KPUF9Wm9K",
+          "name": "VideoContent"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": false
+          },
+          "id": "fld3IrILCGbH491VH",
+          "name": "ImageContent"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblAxggFGAT12zHSp",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "flduq2oE59qmIc4Wd"
+          },
+          "id": "fldebqFaIIIK6otjC",
+          "name": "Used from"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblAxggFGAT12zHSp",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "flddyYmjy3SFrFN2S"
+          },
+          "id": "fldNIlOThzSpuXryF",
+          "name": "Used to"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fld8Wh63KPUF9Wm9K",
+            "fieldIdInLinkedTable": "flds1qBkZGeATs0GO",
+            "result": {
+              "type": "url"
+            }
+          },
+          "id": "fldFgw1kx2ErBF5yJ",
+          "name": "VideoURL"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwGPnWBWcy6KXD7u",
+          "name": "List",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblAxggFGAT12zHSp",
+      "name": "Arrows",
+      "description": "Flèches (Nuage de mots)",
+      "primaryFieldId": "fldp3YlNmjkNHkiTI",
+      "fields": [
+        {
+          "type": "autoNumber",
+          "id": "fldp3YlNmjkNHkiTI",
+          "name": "ID"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblPtBNd29cD5oN4W",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldebqFaIIIK6otjC"
+          },
+          "id": "flduq2oE59qmIc4Wd",
+          "name": "From"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblPtBNd29cD5oN4W",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldNIlOThzSpuXryF"
+          },
+          "id": "flddyYmjy3SFrFN2S",
+          "name": "To"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblcBFibs2wJYFGHr",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fld6jsRzT828S3LtS"
+          },
+          "id": "fldEXAgqdKvnRkDG5",
+          "name": "VideoContent"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": false
+          },
+          "id": "fld2hmL43NrZLYUNI",
+          "name": "ImageContent"
+        },
+        {
+          "type": "richText",
+          "id": "fldguCxppPq3WKKTg",
+          "name": "TextContent"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "sellJaBBEzmRYAELJ",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selTpzqxpYjkDiy81",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fld4cocCHoCFPpOr1",
+          "name": "Lang"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fldEXAgqdKvnRkDG5",
+            "fieldIdInLinkedTable": "flds1qBkZGeATs0GO",
+            "result": {
+              "type": "url"
+            }
+          },
+          "id": "fldwRaAiz5FAR4Yxe",
+          "name": "VideoURL"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwSOg3Rpc4h2kiTp",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwhF1WdSicaDDHLo",
+          "name": "DE",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblcBFibs2wJYFGHr",
+      "name": "Videos",
+      "primaryFieldId": "fldgznNplRH4y4Z0v",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldgznNplRH4y4Z0v",
+          "name": "Video"
+        },
+        {
+          "type": "url",
+          "id": "flds1qBkZGeATs0GO",
+          "name": "File"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selpLKQi7ag6RHoUB",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selLd2atAs4LWF4yz",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldDdNTEaMgOlPYzA",
+          "name": "Lang"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblyps9yvMC43pSBH",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldOuI4nLcMXyTvRy"
+          },
+          "id": "fldevKK2GDafjXqow",
+          "name": "Terminals"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblJ0qN3iFYPbgpbu",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldZ5GISy58IGK2rl"
+          },
+          "id": "fldp6Ioxtww0rOXYj",
+          "name": "Used in"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblAxggFGAT12zHSp",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldEXAgqdKvnRkDG5"
+          },
+          "id": "fld6jsRzT828S3LtS",
+          "name": "Arrow"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldwYrZeILxoplnYR",
+          "name": "Words"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblPtBNd29cD5oN4W",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fld8Wh63KPUF9Wm9K"
+          },
+          "id": "fldyGEgZj39aw9L1D",
+          "name": "Boxes"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tbl5AyU9sgTSzuKkS",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldFvO7f4fn4HXk9u"
+          },
+          "id": "fld7PBWS2kNPmnb4T",
+          "name": "Transitions"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwTJTthWRDxI9pfK",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwTPvgL2NoYXLV3k",
+          "name": "DE",
+          "type": "grid"
+        },
+        {
+          "id": "viwyPGVWE2M8QvgXN",
+          "name": "All",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblvQISo47oSEGMS3",
+      "name": "Dictionnary",
+      "primaryFieldId": "fldyZaPLmgHNCrbDp",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldRdkdepaubVlriE",
+              "fldS4tvdQXlR0rIyW"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldyZaPLmgHNCrbDp",
+          "name": "Key"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldRdkdepaubVlriE",
+          "name": "Tag"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "seljJoRgtMyOsPIrQ",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selhKV2hEfVd83n1e",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldS4tvdQXlR0rIyW",
+          "name": "Lang"
+        },
+        {
+          "type": "multilineText",
+          "id": "fld6b4kXK9YmPnY7h",
+          "name": "Traduction"
+        }
+      ],
+      "views": [
+        {
+          "id": "viw3wzVX18KtoCDr7",
+          "name": "Grid view",
+          "type": "grid"
+        },
+        {
+          "id": "viwrsfgFpRBWQXVXz",
+          "name": "FR",
+          "type": "grid"
+        },
+        {
+          "id": "viwLjQev4nNe13Reg",
+          "name": "DE",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tbl5AyU9sgTSzuKkS",
+      "name": "Transitions",
+      "primaryFieldId": "fldrFqta222IoB0HJ",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldBt2duUD1RJEqNt",
+              "fldHLwXSRx3C2WYhU",
+              "fldf7awnu9Biy1tdP"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldrFqta222IoB0HJ",
+          "name": "Key"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblcBFibs2wJYFGHr",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fld7PBWS2kNPmnb4T"
+          },
+          "id": "fldFvO7f4fn4HXk9u",
+          "name": "Video"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "sel0x35GAWN82tnFj",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "sel6wFYOLj3npB05i",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldf7awnu9Biy1tdP",
+          "name": "Lang"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldBt2duUD1RJEqNt",
+          "name": "FromStepNumber"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldHLwXSRx3C2WYhU",
+          "name": "ToStepNumber"
+        },
+        {
+          "type": "multipleLookupValues",
+          "options": {
+            "isValid": true,
+            "recordLinkFieldId": "fldFvO7f4fn4HXk9u",
+            "fieldIdInLinkedTable": "flds1qBkZGeATs0GO",
+            "result": {
+              "type": "url"
+            }
+          },
+          "id": "fldTN2QVIUJI10DpT",
+          "name": "VideoURL"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwHI0QdGt56Pc1rB",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblPJ4VCfQ9Ldx5cR",
+      "name": "ContainerPlaces",
+      "primaryFieldId": "fldLNRy9Ur9YewlbB",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldC7g3VfD8cB0BkB",
+              "fldAEsjxpq46kHFEC"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldLNRy9Ur9YewlbB",
+          "name": "Key"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldXOSdgPXXFx93Bz",
+          "name": "Name"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selXP8h3xAnPajqUm",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "self24cT7iWPd6S6U",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldAEsjxpq46kHFEC",
+          "name": "Lang"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldP0z30NQ42aV91A",
+          "name": "TextContent"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldC7g3VfD8cB0BkB",
+          "name": "Number"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldbTwNDtW8LD5JIr",
+          "name": "Timeout"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwDqwSWCxn5myuE9",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblZihzz5RSEhtK80",
+      "name": "ContainerCodes",
+      "description": "Code des containers (inutilisé)",
+      "primaryFieldId": "fldvJLKLfr2I3rsfw",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "referencedFieldIds": [
+              "fldn6VwVNyCD32ixo"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldvJLKLfr2I3rsfw",
+          "name": "Team"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldvvHIjb3rd1T7UZ",
+          "name": "Code"
+        },
+        {
+          "type": "autoNumber",
+          "id": "fldn6VwVNyCD32ixo",
+          "name": "Team number"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwQRYxKtZ7vTwoWE",
+          "name": "Grid",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblDd4y8hJW6YIxRL",
+      "name": "Pages",
+      "primaryFieldId": "fldzVtIrIqfzUfHog",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldzVtIrIqfzUfHog",
+          "name": "Tag"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selUG8aspPzDHAuwy",
+                "name": "FR",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selRmnJJOxJGV1TOv",
+                "name": "DE",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldIbtriI1I5dsLIs",
+          "name": "Lang"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldWaR7jBv7Og4G8t",
+          "name": "Text"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwsuRZjYv99xoxNS",
+          "name": "FR",
+          "type": "grid"
+        }
+      ]
+    }
+  ]
+}

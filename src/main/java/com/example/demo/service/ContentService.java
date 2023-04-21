@@ -5,6 +5,12 @@ import com.example.demo.repository.ContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * This class implements the IContentService interface and is responsible for providing the necessary functionalities for
  * interacting with the ContentRepository. It contains methods to add content to the repository and retrieve content based
@@ -48,12 +54,60 @@ public class ContentService implements IContentService {
      * @return the content with the given Airtable ID, or null if it does not exist in the repository
      */
     @Override
-    public Content getContentByAirtableId(String id) {
+    public Optional<Content> getContentByAirtableId(String id) {
         return contentRepository.findByAirtableID(id);
+    }
+
+    @Override
+    public void deleteAllContent() {
+        contentRepository.deleteAll();
+        System.out.println("Database wiped out..");
     }
 
     public ContentRepository getContentRepository() {
         return contentRepository;
     }
+
+
+    public boolean updateContent(Content contentFromAirtable){
+        Optional<Content> contentFromDB = contentRepository.findByAirtableID(contentFromAirtable.getAirtableID());
+
+        if (contentFromDB.isPresent()) {
+            Content contentDB = contentFromDB.get();
+            if(contentDB.getJsonHash().equals(contentFromAirtable.getJsonHash())){
+                return false;
+            }else {
+                System.out.println("--UPDATE INFO--");
+                System.out.println("Airtable id found in DB : " + contentDB.getAirtableID());
+                System.out.println("New JSON HASH of airtable : " + contentFromAirtable.getJsonHash());
+                System.out.println("Old JSON HASH of contentDB: " + contentDB.getJsonHash());
+                System.out.println("----");
+                contentDB.setJsonHash(contentFromAirtable.getJsonHash());
+                contentDB.setBinaryHashes(contentFromAirtable.getBinaryHashes());
+                contentRepository.save(contentDB);
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * Starts a periodic check of content integrity with the specified interval in minutes.
+     * @param intervalMinutes the interval in minutes at which the check should be performed
+     * @throws NullPointerException if the method checkContentIntegrity is not implemented or returns null
+     */
+    public static void startPeriodicCheck(int intervalMinutes) {
+        ScheduledExecutorService schedule;
+        schedule = Executors.newSingleThreadScheduledExecutor();
+
+        schedule.scheduleAtFixedRate(() -> {
+
+            System.out.println("Periodic check: "+ LocalDateTime.now());
+        }, 0, intervalMinutes, TimeUnit.SECONDS);
+    }
+
+
 
 }

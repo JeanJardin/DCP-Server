@@ -4,6 +4,9 @@ import com.example.demo.model.Content;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * This interface represents the repository for managing Content objects in MongoDB.
  * <p>
@@ -17,7 +20,7 @@ public interface ContentRepository extends MongoRepository<Content, String> {
      * @param airtableID the Airtable ID of the Content object to find
      * @return the Content object with the specified Airtable ID, or null if not found
      */
-    Content findByAirtableID(String airtableID);
+    Optional<Content> findByAirtableID(String airtableID);
 
     /**
      * Finds a Content object by its JSON hash.
@@ -27,13 +30,7 @@ public interface ContentRepository extends MongoRepository<Content, String> {
      */
     Content findByJsonHash(String jsonHash);
 
-    /**
-     * Finds a Content object by its binary hash.
-     *
-     * @param binaryHash the binary hash of the Content object to find
-     * @return the Content object with the specified binary hash, or null if not found
-     */
-    Content findByBinaryHash(String binaryHash);
+
 
     /**
      * Checks if a Content object with the specified JSON hash exists in the repository.
@@ -44,10 +41,14 @@ public interface ContentRepository extends MongoRepository<Content, String> {
     boolean existsByJsonHash(String jsonHash);
 
     /**
-     * Checks if a Content object with the specified binary hash exists in the repository.
+     * This method checks if a record with the given Airtable ID exists in the database.
      *
-     * @param binaryHash the binary hash to check for
-     * @return true if a Content object with the specified binary hash exists, false otherwise
+     * @param airtableId the Airtable ID to check for existence
+     * @return true if a record with the given Airtable ID exists in the database, false otherwise
      */
-    boolean existsByBinaryHash(String binaryHash);
+    boolean existsByAirtableID(String airtableId);
+
+
+
+
 }
