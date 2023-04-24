@@ -63,24 +63,7 @@ class ContentServiceTest {
         assertEquals(contentRepository.getClass(), result.getClass());
 
     }
-
-    /*
-    @Test
-    void updateContentTest(){
-        ContentRepository mockContentRepository = mock(ContentRepository.class);
-        ContentService contentService = new ContentService(mockContentRepository);
-        Content contentFromAirtable = new Content();
-        contentFromAirtable.setAirtableID("123");
-        contentFromAirtable.setJsonHash("hash");
-
-        Optional<Content> mockContentDB = Optional.of(new Content());
-        when(mockContentRepository.findByAirtableID("123")).thenReturn(mockContentDB);
-
-        boolean result = contentService.updateContent(contentFromAirtable);
-        assertTrue(result);
-    }
-
-*/
+    
 
     @Test
     void startPeriodicCheckTest(){

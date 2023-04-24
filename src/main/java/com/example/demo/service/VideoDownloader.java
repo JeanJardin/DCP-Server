@@ -12,21 +12,22 @@ import java.net.URL;
 import java.util.concurrent.Future;
 
 /**
- * Utility class to download binary content from an url
- * @author Nathan Gaillard: nathan.gaillard@students.hevs.ch
+ * Service class that implements the {@link IVideoDownloader} interface to download video from URL asynchronously.
  */
 @Service
 public class VideoDownloader implements IVideoDownloader {
-
+    /**
+     * The size of the buffer used for downloading the video.
+     */
     private static final int BUFFER_SIZE = 4096;
 
     /**
-     * Downloads a video from a url
+     * Downloads a video from the specified URL and returns it as a Future object.
      *
-     * @param url the url in string format
-     * @return a byte array containing the video raw data
+     * @param url the URL of the video to download
+     * @return a Future object containing the downloaded video data
+     * @throws RuntimeException if an error occurs while downloading the video
      */
-
     @Async
     @Override
     public Future<byte[]> downloadVideo(String url) {
@@ -43,7 +44,7 @@ public class VideoDownloader implements IVideoDownloader {
             while ((bytesRead = inputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return new AsyncResult<>(outputStream.toByteArray());

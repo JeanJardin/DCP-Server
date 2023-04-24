@@ -28,7 +28,7 @@ jobs:
           cache: maven
 
       - name: Build env file  
-        run: echo "${{ secrets.SERVERPARAMETERS }}" > src/main/resources/serverParameters.env
+        run: echo "${{ secrets.SERVERPARAMETERS }}" > src/main/resources/.env
 
       - name: Run tests
         run: mvn test

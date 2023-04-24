@@ -46,50 +46,6 @@ import static org.mockito.Mockito.verify;
             assertTrue(result.equals("Finished !"));
         }
 
-        /*
-
-        @Test
-        public void testGetBinaryHashesFromAirtableID() throws JSONException {
-            // Given
-            String airtableID = "rec123456789";
-            List<String> binaryHashes = Arrays.asList("hash1", "hash2", "hash3");
-            Content content = new Content();
-            content.setBinaryHashes(binaryHashes);
-            Optional<Content> contentFound = Optional.of(content);
-            given(contentService.getContentByAirtableId(airtableID)).willReturn(contentFound);
-
-            // When
-            ResponseEntity<List<String>> responseEntity = contentController.getBinaryHashesFromAirtableID(airtableID);
-
-            // Then
-            assertEquals(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-            assertEquals(responseEntity.getBody()).isEqualTo(binaryHashes);
-        }
-
-
-        @Test
-        public void testGetJsonHashFromAirtableID() throws Exception {
-            // Given
-            String airtableID = "rec123456789";
-            String expectedJsonHash = "hash123";
-
-            Content content = new Content();
-            content.setAirtableID(airtableID);
-            content.setJsonHash(expectedJsonHash);
-
-            given(contentService.getContentByAirtableId(airtableID)).willReturn(Optional.of(content));
-
-            // When
-            ResponseEntity<String> response = contentController.getJsonHashFromAirtableID(airtableID);
-            assertEquals(response.getStatusCode(),HttpStatus.OK);
-            // Then
-            //assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-            // assertThat(response.getBody()).isEqualTo(expectedJsonHash);
-
-        }
-*/
-
-
     }
 
 

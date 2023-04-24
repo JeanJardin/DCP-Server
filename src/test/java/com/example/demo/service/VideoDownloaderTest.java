@@ -27,11 +27,6 @@ class VideoDownloaderTest {
         assertArrayEquals(expectedBytes, actualBytes);
     }
 
-
-
-
-
-
     @Test
     public void testDownloadImage() throws Exception {
         VideoDownloader videoDownloader  =new VideoDownloader();

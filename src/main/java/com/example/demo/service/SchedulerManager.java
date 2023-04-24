@@ -7,10 +7,19 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
+/**
+ This component class is responsible for managing scheduled tasks. It provides a method to reload content in the
+ application at regular intervals using Spring's @Scheduled annotation.
+ */
 @Component
 public class SchedulerManager {
+    /**
 
+     Reloads the content in the application at regular intervals. The method is scheduled to run every 30 minutes
+     using Spring's @Scheduled annotation.
+     * @throws JSONException if there is an issue parsing JSON data
+     * @throws IOException if there is an issue with reading from or writing to a file or stream
+     */
     @Autowired
     private ContentController contentController;
 

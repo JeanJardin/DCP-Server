@@ -17,8 +17,6 @@ public class ScheduleManagerTest {
     private SchedulerManager myClass;
     @Mock
     private ContentController contentController;
-
-
     /**
      * Test that the reload works and call the methode correctly
      * @throws JSONException

@@ -17,27 +17,37 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class provides methods to interact with an Airtable database and retrieve data from it.
+ * Service class that interacts with the Airtable API to retrieve data and perform operations on it.
  */
+
 @Service
 public class AirtableService implements IAirtableService {
-	
+
+    // Instance variables for the Airtable access credentials
     Dotenv dotenv = Dotenv.configure().load();
     String ACCESS_TOKEN = dotenv.get("ACCESS_TOKEN");
     String BASE_ID = dotenv.get("BASE_ID");
     String HTTP_AIRTABLE_TABLES = dotenv.get("HTTP_AIRTABLE_TABLES");
 
+    // Instance variables for the HTTP client and request objects
     private static HttpClient httpClient;
     private static HttpGet request;
+
+    // List to store JSONObjects retrieved from Airtable
     private static List<JSONObject> jsonObjectList;
 
     /**
-     * Method to get the JSONObject through the airtable get
+     * Makes a GET request to the Airtable API to retrieve a list of JSONObjects for a given table.
+     * <p>
+     * The list has a maximum of 200 records.
      *
-     * @param tableName name of the table we want in the airtable database
-     * @return a list of jsonObject correspond to the content
+     * @param tableName   The name of the table to retrieve records from.
+     * @param baseId      The ID of the base that the table belongs to.
+     * @param accessToken The access token to use for authorization.
+     * @return A list of JSONObjects representing the records in the table.
+     * @throws JSONException If there is an error parsing the JSON response from Airtable.
+     * @throws IOException   If there is an error making the HTTP request to Airtable.
      */
-
     public static List<JSONObject> getResponseList(String tableName, String baseId, String accessToken) throws JSONException, IOException {
 
         httpClient = HttpClientBuilder.create().build();
@@ -56,7 +66,24 @@ public class AirtableService implements IAirtableService {
         System.out.println(jsonObjectList);
         return jsonObjectList;
     }
+    /**
 
+     Makes a GET request to the Airtable API to retrieve a JSONObject for a given table, starting from a given offset.
+
+     @param tableName The name of the table to retrieve records from.
+
+     @param baseId The ID of the base that the table belongs to.
+
+     @param accessToken The access token to use for authorization.
+
+     @param offset The offset to start retrieving records from.
+
+     @return A JSONObject representing the response from the Airtable API.
+
+     @throws IOException If there is an error making the HTTP request to Airtable.
+
+     @throws JSONException If there is an error parsing the JSON response from Airtable.
+     */
     JSONObject getResponse(String tableName, String baseId, String accessToken, String offset) throws IOException, JSONException {
         HttpClient httpClient = HttpClientBuilder.create().build();
         if (offset != null) {
@@ -65,22 +92,28 @@ public class AirtableService implements IAirtableService {
             request = new HttpGet("https://api.airtable.com/v0/" + baseId + "/" + tableName);
         }
 
-        request.setHeader("Authorization",accessToken);
+        request.setHeader("Authorization", accessToken);
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         System.out.println(response);
         return new JSONObject(response);
     }
-
-
     /**
-     * This method retrieves all records from a given Airtable table and returns them as a list of JSON objects.
-     *
-     * @param tableName the name of the Airtable table to retrieve records from
-     * @param baseID the ID of the Airtable base containing the specified table
-     * @param accessToken the access token used for authentication
-     * @return a list of JSON objects representing the retrieved records
-     * @throws JSONException if there is an error processing the retrieved JSON data
-     * @throws IOException if there is an error making the HTTP request
+
+     Fetches all records from a specific table in Airtable API and returns a list of JSON objects.
+
+     It makes multiple HTTP requests if there are more than 100 records to retrieve.
+
+     @param tableName the name of the table to fetch records from
+
+     @param baseID the ID of the base containing the table
+
+     @param accessToken the authorization token for Airtable API
+
+     @return a list of JSON objects containing the records from the specified table
+
+     @throws JSONException if there's an error parsing the JSON response
+
+     @throws IOException if there's an error making the HTTP request
      */
     public List<JSONObject> createJsonObject(String tableName, String baseID, String accessToken) throws JSONException, IOException {
         String offset = null;
@@ -98,13 +131,12 @@ public class AirtableService implements IAirtableService {
 
         return jsonObjectList;
     }
-
     /**
-     * This method retrieves a list of Airtable table names associated with the specified base ID using the Airtable API.
-     *
-     * @return an array of Airtable table names associated with the specified base ID
-     * @throws JSONException if there is an error processing the retrieved JSON data
-     * @throws IOException if there is an error making the HTTP request
+
+     Gets an array of all the table names in the Airtable base.
+     @return an array of table names
+     @throws JSONException if there is an error parsing the JSON response
+     @throws IOException if there is an error sending or receiving the HTTP request/response
      */
     @Override
     public String[] getAirtableTabNames() throws JSONException, IOException {
@@ -115,20 +147,22 @@ public class AirtableService implements IAirtableService {
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
 
         JSONObject jsonObject = new JSONObject(response);
-        System.out.println("JSON OBJECT IS" +jsonObject);
-        System.out.println("ACCESS_TOKEN IS :"+ ACCESS_TOKEN);
-        System.out.println("BASE_ID IS :"+ BASE_ID);
+        System.out.println("JSON OBJECT IS" + jsonObject);
+        System.out.println("ACCESS_TOKEN IS :" + ACCESS_TOKEN);
+        System.out.println("BASE_ID IS :" + BASE_ID);
         JSONArray tables = jsonObject.getJSONArray("tables");
 
         return getTableNamesFromJsonArray(tables);
     }
-
     /**
-     * This method retrieves an array of Airtable table names from a JSON array of Airtable tables.
-     *
-     * @param tables the JSON array of Airtable tables to extract table names from
-     * @return an array of Airtable table names extracted from the input JSON array
-     * @throws JSONException if there is an error processing the input JSON data
+
+     Extracts table names from a JSONArray of tables.
+
+     @param tables the JSONArray of tables
+
+     @return an array of table names
+
+     @throws JSONException if there is an error parsing the JSON data
      */
     private String[] getTableNamesFromJsonArray(JSONArray tables) throws JSONException {
         String[] tableNames = new String[tables.length()];
@@ -143,24 +177,14 @@ public class AirtableService implements IAirtableService {
     }
 
     /**
-     * This method separates a comma-separated list of URLs into individual URL strings and returns them as an array.
-     *
-     * @param urls the comma-separated list of URLs to separate
-     * @return an array of individual URL strings
-     */
-    private String[] separateUrls(String urls) {
-        if (urls == null || urls.isEmpty()) {
-            return new String[]{};
-        }
-        return urls.split(",");
-    }
 
-    /**
-     * This method recursively searches for all HTTPS URLs in a JSON object and its nested JSON objects and arrays.
-     *
-     * @param jsonObject the JSON object to search for HTTPS URLs in
-     * @return a list of all HTTPS URLs found in the input JSON object and its nested JSON objects and arrays
-     * @throws JSONException if there is an error processing the input JSON data
+     Recursively searches a JSONObject for values starting with "https://" and returns them in a list.
+
+     @param jsonObject the JSONObject to search
+
+     @return a list of all values starting with "https://"
+
+     @throws JSONException if there is an error parsing the JSONObject
      */
     public List<String> findHttps(JSONObject jsonObject) throws JSONException {
         List<String> result = new ArrayList<>();
@@ -184,26 +208,5 @@ public class AirtableService implements IAirtableService {
             }
         }
         return result;
-    }
-
-    /**
-     * Reformats the given URL string by removing "[" and "]" characters, removing all whitespace characters, replacing all backslashes with forward slashes, replacing any sequence of more than one forward slash with just one, and replacing any sequence of one or more forward slashes followed by a colon with just two forward slashes.
-     *
-     * @param url The URL string to be reformatted.
-     * @return The reformatted URL string.
-     */
-    private String reformattedUrl(String url) {
-        // Replace [ and ] in the URL
-        url = url.replaceAll("\\[", "");
-        url = url.replaceAll("]", "");
-        // Replace the " " in the URL
-        url = url.replaceAll("\"", "");
-        // Replace all occurrences of backslashes with forward slashes
-        url = url.replaceAll("\\\\", "/");
-        // Replace any sequence of more than one forward slash with just one
-        url = url.replaceAll("/{2,}", "/");
-        // Replace any sequence of one or more forward slashes followed by a colon with just two forward slashes
-        url = url.replaceAll("(?<=https:)/+", "//");
-        return url;
     }
 }

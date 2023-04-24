@@ -7,11 +7,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
 /**
- * Class to hash content
- *
- * @author Nathan Gaillard: nathan.gaillard@students.hevs.ch
+ * This class implements the IHashService interface and is responsible for providing the necessary functionalities for
+ * hashing the content data and binary data. It contains methods to hash the content data and binary data, and to compare
+ * the hash signatures.
  */
 @Service
 public class HashService implements IHashService {
@@ -23,10 +22,9 @@ public class HashService implements IHashService {
     private VideoDownloader videoDownloader;
 
     /**
-     * Hash json content
-     *
-     * @param jsonObject message to digest
-     * @return digest in a string format
+     * Returns the hash value for the provided JSON object.
+     * @param jsonObject the JSON object to hash
+     * @return the hash value of the JSON object
      */
     @Override
     public String hashContent(JSONObject jsonObject) {
@@ -36,10 +34,9 @@ public class HashService implements IHashService {
     }
 
     /**
-     * Hash binary content such as images, videos, audios
-     *
-     * @param resourceUrl the url where the binary content is stored
-     * @return digest in a string format
+     * Returns the hash value for the binary content located at the specified URL.
+     * @param resourceUrl the URL of the binary content to hash
+     * @return the hash value of the binary content
      */
     @Override
     public String hashBinaryContent(String resourceUrl) {
@@ -60,25 +57,19 @@ public class HashService implements IHashService {
         }
         return byteArrayToHex(hashData(data));
     }
-
     /**
-     * Method to compare the hash from the mongoDB and the one computed on the tablet
-     *
-     * @param hashMongoDB is the hash stored in the database
-     * @param hashTablet  is the hash computed directly on the tablet and send to the server
-     * @return a boolean response to tell if it matches or not
+     * Compares the hash signatures of two content pieces.
+     * @param hashMongoDB the hash signature stored in the MongoDB database
+     * @param hashTablet the hash signature of the content on the tablet device
+     * @return true if the hash signatures match, false otherwise
      */
     public boolean compareHashSignature(String hashMongoDB, String hashTablet) {
         return hashMongoDB.equals(hashTablet);
     }
-
-
     /**
-     * Hashes a byte array using the specified hash algorithm.
-     *
-     * @param data the byte array to be hashed
-     * @return the resulting hashed byte array
-     * @throws RuntimeException if the specified hash algorithm is not available
+     * Calculates the hash value of the provided data.
+     * @param data the data to hash
+     * @return the hash value of the data
      */
     static byte[] hashData(byte[] data) {
         byte[] res;
@@ -90,12 +81,10 @@ public class HashService implements IHashService {
         }
         return res;
     }
-
     /**
-     * Converts a byte array to its hexadecimal representation as a String.
-     *
+     * Converts a byte array to a hexadecimal string.
      * @param a the byte array to convert
-     * @return the hexadecimal representation of the byte array
+     * @return the hexadecimal string representation of the byte array
      */
     public static String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder(a.length * 2);
@@ -103,11 +92,16 @@ public class HashService implements IHashService {
             sb.append(String.format("%02x", b));
         return sb.toString();
     }
-
+    /**
+     * Constructor for creating a new instance of HashService with a provided VideoDownloader object.
+     * @param videoDownloader the VideoDownloader object to use for downloading videos
+     */
     public HashService(VideoDownloader videoDownloader) {
         this.videoDownloader = videoDownloader;
     }
-
+    /**
+     * Default constructor for creating a new instance of HashService.
+     */
     public HashService() {
     }
 }

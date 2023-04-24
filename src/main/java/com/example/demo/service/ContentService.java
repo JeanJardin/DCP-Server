@@ -19,29 +19,30 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ContentService implements IContentService {
 
-    /**
-     * The instance of the ContentRepository that this class interacts with.
-     */
+
     @Autowired
     private ContentRepository contentRepository;
 
     /**
      * Adds the given content to the ContentRepository.
      *
-     * @param content the content to add to the repository
+     * @param content the content to be added to the repository
      */
     @Override
     public void addContent(Content content) {
         contentRepository.save(content);
     }
 
+    /**
+     * Default constructor for the ContentService class.
+     */
     public ContentService() {
     }
 
     /**
-     * Constructs a new instance of ContentService with the given ContentRepository instance.
+     * Constructor for the ContentService class that takes a ContentRepository object as a parameter.
      *
-     * @param contentRepository the ContentRepository instance to use
+     * @param contentRepository the ContentRepository object to be used by the ContentService
      */
     public ContentService(ContentRepository contentRepository) {
         this.contentRepository = contentRepository;
@@ -51,32 +52,46 @@ public class ContentService implements IContentService {
      * Retrieves the content from the repository based on the given Airtable ID.
      *
      * @param id the Airtable ID of the content to retrieve
-     * @return the content with the given Airtable ID, or null if it does not exist in the repository
+     * @return an Optional object containing the content with the given Airtable ID, or empty if it does not exist in the repository
      */
     @Override
     public Optional<Content> getContentByAirtableId(String id) {
         return contentRepository.findByAirtableID(id);
     }
 
+    /**
+     * Deletes all content from the ContentRepository.
+     */
     @Override
     public void deleteAllContent() {
         contentRepository.deleteAll();
         System.out.println("Database wiped out..");
     }
 
+    /**
+     * Gets the ContentRepository object used by the ContentService.
+     *
+     * @return the ContentRepository object used by the ContentService
+     */
     public ContentRepository getContentRepository() {
         return contentRepository;
     }
 
 
-    public boolean updateContent(Content contentFromAirtable){
+    /**
+     * Updates the content in the ContentRepository based on the given content from Airtable.
+     *
+     * @param contentFromAirtable the content from Airtable to use for the update
+     * @return true if the content was updated, false otherwise
+     */
+    public boolean updateContent(Content contentFromAirtable) {
         Optional<Content> contentFromDB = contentRepository.findByAirtableID(contentFromAirtable.getAirtableID());
 
         if (contentFromDB.isPresent()) {
             Content contentDB = contentFromDB.get();
-            if(contentDB.getJsonHash().equals(contentFromAirtable.getJsonHash())){
+            if (contentDB.getJsonHash().equals(contentFromAirtable.getJsonHash())) {
                 return false;
-            }else {
+            } else {
                 System.out.println("--UPDATE INFO--");
                 System.out.println("Airtable id found in DB : " + contentDB.getAirtableID());
                 System.out.println("New JSON HASH of airtable : " + contentFromAirtable.getJsonHash());
@@ -94,7 +109,8 @@ public class ContentService implements IContentService {
     }
 
     /**
-     * Starts a periodic check of content integrity with the specified interval in minutes.
+     * Starts a periodic check of content integrity
+     * with the specified interval in minutes.
      * @param intervalMinutes the interval in minutes at which the check should be performed
      * @throws NullPointerException if the method checkContentIntegrity is not implemented or returns null
      */
@@ -104,10 +120,9 @@ public class ContentService implements IContentService {
 
         schedule.scheduleAtFixedRate(() -> {
 
-            System.out.println("Periodic check: "+ LocalDateTime.now());
+            System.out.println("Periodic check: " + LocalDateTime.now());
         }, 0, intervalMinutes, TimeUnit.SECONDS);
     }
-
 
 
 }

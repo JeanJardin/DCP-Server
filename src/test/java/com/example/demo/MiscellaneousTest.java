@@ -1,5 +1,7 @@
-package com.example.demo.test;
+package com.example.demo;
 
+import com.example.demo.service.AirtableService;
+import com.example.envUtils.DotenvConfig;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,12 +15,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
-public class AirtableServiceTest {
+public class MiscellaneousTest {
 
 
     public static void main(String[] args) throws Exception {
@@ -36,6 +36,12 @@ public class AirtableServiceTest {
         request.setHeader("Authorization", "Bearer " + accessToken);
         String response = EntityUtils.toString(httpClient.execute(request).getEntity());
         System.out.println(response);
+    }
+
+    public static void main2(String[] args) throws IOException, JSONException {
+        AirtableService airtableService = new AirtableService();
+        //airtableService.getResponseList("Boxes", DotenvConfig.get("BASE_ID"),DotenvConfig.get("ACCESS_TOKEN"));
+        System.err.println(airtableService.createJsonObject("Videos", DotenvConfig.get("BASE_ID"), DotenvConfig.get("ACCESS_TOKEN")));
     }
 
 
